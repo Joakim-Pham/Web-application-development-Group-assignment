@@ -6,6 +6,8 @@
 <body>
     <h1>Listings</h1>
 
+    <a href="{% url 'listing_create' %}">Create New Listing</a>
+
     <ul>
         {% for listing in listings %}
             <li>
@@ -13,6 +15,10 @@
                     {{ listing.title }}
                 </a>
                 - {{ listing.city }}, {{ listing.country }}
+                - {{ listing.price_per_night }}
+
+                <a href="{% url 'listing_update' listing.id %}">Edit</a>
+                <a href="{% url 'listing_delete' listing.id %}">Delete</a>
             </li>
         {% empty %}
             <li>No listings available.</li>
