@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Kaceni</title>
-</head>
-<body>
-    <h1>Welcome to Kaceni</h1>
-    <p>The website is working.</p>
+{% extends "listings/base.html" %}
 
-    <ul>
-        <li><a href="{% url 'listing_list' %}">Listings</a></li>
-        <li><a href="{% url 'amenity_list' %}">Amenities</a></li>
-        <li><a href="{% url 'booking_list' %}">Bookings</a></li>
-        <li><a href="{% url 'review_list' %}">Reviews</a></li>
-    </ul>
-</body>
-</html>
+{% block title %}Home - Kaceni{% endblock %}
+
+{% block content %}
+<h1>Welcome to Kaceni</h1>
+<p>The website is working.</p>
+
+<ul>
+    <li><a href="{% url 'listing_list' %}">Listings</a></li>
+    <li><a href="{% url 'amenity_list' %}">Amenities</a></li>
+    <li><a href="{% url 'booking_list' %}">Bookings</a></li>
+    <li><a href="{% url 'review_list' %}">Reviews</a></li>
+</ul>
+{% endblock %}
+
 
