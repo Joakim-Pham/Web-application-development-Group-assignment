@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Listings</title>
-</head>
-<body>
-    <h1>Listings</h1>
+{% extends "listings/base.html" %}
 
     <a href="{% url 'listing_create' %}">Create New Listing</a>
 
@@ -25,6 +19,21 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'home' %}">Back to home</a>
-</body>
-</html>
+{% block content %}
+<h1>Listings</h1>
+
+<ul>
+    {% for listing in listings %}
+        <li>
+            <a href="{% url 'listing_detail' listing.id %}">
+                {{ listing.title }}
+            </a>
+            - {{ listing.city }}, {{ listing.country }}
+        </li>
+    {% empty %}
+        <li>No listings available.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Back to home</a>
+{% endblock %}

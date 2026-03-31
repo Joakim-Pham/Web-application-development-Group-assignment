@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Amenities</title>
-</head>
-<body>
-    <h1>Amenities</h1>
+{% extends "listings/base.html" %}
 
-    <ul>
-        {% for amenity in amenities %}
-            <li>{{ amenity.name }}</li>
-        {% empty %}
-            <li>No amenities found.</li>
-        {% endfor %}
-    </ul>
+{% block title %}Amenities{% endblock %}
 
-    <a href="{% url 'home' %}">Back to home</a>
-</body>
-</html>
+{% block content %}
+<h1>Amenities</h1>
+
+<ul>
+    {% for amenity in amenities %}
+        <li>{{ amenity.name }}</li>
+    {% empty %}
+        <li>No amenities found.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Back to home</a>
+{% endblock %}

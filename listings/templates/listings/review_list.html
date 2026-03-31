@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reviews</title>
-</head>
-<body>
-    <h1>Reviews</h1>
+{% extends "listings/base.html" %}
 
-    <ul>
-        {% for review in reviews %}
-            <li>{{ review.rating }} - {{ review.comment }}</li>
-        {% empty %}
-            <li>No reviews found.</li>
-        {% endfor %}
-    </ul>
+{% block title %}Reviews{% endblock %}
 
-    <a href="{% url 'home' %}">Back to home</a>
-</body>
-</html>
+{% block content %}
+<h1>Reviews</h1>
+
+<ul>
+    {% for review in reviews %}
+        <li>{{ review.rating }} - {{ review.comment }}</li>
+    {% empty %}
+        <li>No reviews found.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Back to home</a>
+{% endblock %}
