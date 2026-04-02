@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+
+import listings
 from .models import Listing, Amenity, Booking, Review
 from .forms import ListingForm, BookingForm
 
@@ -77,3 +79,9 @@ def booking_create(request):
         form = BookingForm()
 
     return render(request, "listings/booking_form.html", {"form": form})
+
+def listing_map(request):
+
+    listings = Listing.objects.all()
+
+    return render(request, "listings/listing_map.html", {"listings": listings})

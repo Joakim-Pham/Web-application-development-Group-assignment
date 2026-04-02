@@ -12,5 +12,6 @@ urlpatterns = [
     path("bookings/", views.booking_list, name="booking_list"),
     path("bookings/create/", views.booking_create, name="booking_create"),
     path("reviews/", views.review_list, name="review_list"),
+    path("map/", views.listing_map, name="listing_map"),
 ]
 
