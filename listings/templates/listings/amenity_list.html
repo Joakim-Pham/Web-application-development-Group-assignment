@@ -1,17 +1,16 @@
 {% extends "listings/base.html" %}
-
+ 
 {% block title %}Amenities{% endblock %}
-
+ 
 {% block content %}
 <h1>Amenities</h1>
-
-<ul>
-    {% for amenity in amenities %}
-        <li>{{ amenity.name }}</li>
-    {% empty %}
-        <li>No amenities found.</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'home' %}">Back to home</a>
+ 
+{% for amenity in amenities %}
+    <span class="chip">✓ {{ amenity.name }}</span>
+{% empty %}
+    <p>No amenities found.</p>
+{% endfor %}
+ 
+<br><br>
+<a href="{% url 'home' %}" class="back-link">← Back to home</a>
 {% endblock %}

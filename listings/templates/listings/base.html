@@ -15,7 +15,19 @@
             <a href="{% url 'amenity_list' %}">Amenities</a>
             <a href="{% url 'booking_list' %}">Bookings</a>
             <a href="{% url 'review_list' %}">Reviews</a>
+            {% if user.is_authenticated %}
+                <span style="margin-left:auto; color:rgba(255,255,255,0.6); font-size:0.85rem;">Hi, {{ user.username }}</span>
+                <a href="{% url 'logout' %}" style="margin-left:8px;">Log out</a>
+            {% else %}
+                <a href="{% url 'login' %}" style="margin-left:auto;">Log in</a>
+            {% endif %}
         </nav>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-box success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
 
         {% block content %}{% endblock %}
     </div>
