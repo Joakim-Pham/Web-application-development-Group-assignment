@@ -1,22 +1,19 @@
 {% extends "listings/base.html" %}
-
+ 
 {% block title %}Listings{% endblock %}
-
+ 
 {% block content %}
 <h1>Listings</h1>
-
-<ul>
-    {% for listing in listings %}
-        <li>
-            <a href="{% url 'listing_detail' listing.id %}">
-                {{ listing.title }}
-            </a>
-            - {{ listing.city }}, {{ listing.country }}
-        </li>
-    {% empty %}
-        <li>No listings available.</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'home' %}">Back to home</a>
+ 
+{% for listing in listings %}
+    <div class="listing-item">
+        <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+        <div class="location">📍 {{ listing.city }}, {{ listing.country }}</div>
+    </div>
+{% empty %}
+    <p>No listings available.</p>
+{% endfor %}
+ 
+<a href="{% url 'home' %}" class="back-link">← Back to home</a>
 {% endblock %}
+ 

@@ -1,17 +1,19 @@
 {% extends "listings/base.html" %}
-
+ 
 {% block title %}Bookings{% endblock %}
-
+ 
 {% block content %}
 <h1>Bookings</h1>
-
-<ul>
-    {% for booking in bookings %}
-        <li>{{ booking.guest.username }} booked {{ booking.listing.title }}</li>
-    {% empty %}
-        <li>No bookings found.</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'home' %}">Back to home</a>
+ 
+{% for booking in bookings %}
+    <div class="listing-item">
+        <strong>{{ booking.guest.username }}</strong> booked
+        <a href="{% url 'listing_detail' booking.listing.id %}">{{ booking.listing.title }}</a>
+        <div class="location"> {{ booking.listing.city }}, {{ booking.listing.country }}</div>
+    </div>
+{% empty %}
+    <p>No bookings found.</p>
+{% endfor %}
+ 
+<a href="{% url 'home' %}" class="back-link">← Back to home</a>
 {% endblock %}
