@@ -16,36 +16,59 @@
             <a href="{% url 'booking_list' %}">Bookings</a>
             <a href="{% url 'review_list' %}">Reviews</a>
             {% if user.is_authenticated %}
-                <span style="margin-left:auto; color:rgba(255,255,255,0.6); font-size:0.85rem;">Hi, {{ user.username }}</span>
-                <form method="post" action="{% url 'logout' %}" style="margin-left:8px;">
+                <span class="nav-greeting">Hi, {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" style="background:none; border:none; color:rgba(255,255,255,0.65); cursor:pointer; font-size:0.9rem; padding:6px 14px; border-radius:20px;">Log out</button>
+                    <button type="submit" class="logout-btn">Log out</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}" style="margin-left:auto;">Log in</a>
+                <a href="{% url 'login' %}" class="nav-login">Log in</a>
             {% endif %}
         </nav>
- 
-        <!-- Hero -->
-        <div style="background:#0D1B2A; margin:-32px -32px 32px -32px; padding:60px 32px; text-align:center; border-radius:0;">
-            <h1 style="color:white; font-size:2.2rem; margin-bottom:12px;">Welcome to <span style="color:#FF5C28;">Kaceni</span></h1>
-            <p style="color:rgba(255,255,255,0.6); margin-bottom:24px;">Discover rentals from cozy city apartments to countryside retreats.</p>
+
+        <div class="hero">
+            <h1>Welcome to <span class="hero-highlight">Kaceni</span></h1>
+            <p class="hero-text">Discover rentals from cozy city apartments to countryside retreats.</p>
             <a href="{% url 'listing_list' %}" class="btn btn-orange">Browse Listings</a>
             {% if not user.is_authenticated %}
-                <a href="{% url 'login' %}" class="btn btn-navy" style="margin-left:10px;">Log In</a>
+                <a href="{% url 'login' %}" class="btn btn-navy">Log In</a>
             {% else %}
-                <p style="color:rgba(255,255,255,0.7); margin-top:16px; font-size:0.9rem;">You are logged in as <strong style="color:white;">{{ user.username }}</strong>.</p>
+                <p class="hero-logged-in">You are logged in as <strong>{{ user.username }}</strong>.</p>
             {% endif %}
         </div>
- 
+
+        <h2>About Kaceni</h2>
+        <p>Kaceni is a rental platform where hosts can list their properties and guests can find and book unique places to stay. Whether you are looking for a short weekend getaway or a longer stay, we have something for everyone and everywhere.</p>
+
+        <hr class="divider">
+
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step"><div class="step-icon"></div><h3>1. Browse</h3><p>Search through hundreds of listings and find the perfect place for your stay.</p></div>
+            <div class="step"><div class="step-icon"></div><h3>2. Book</h3><p>Pick your dates and confirm your booking in just a few clicks.</p></div>
+            <div class="step"><div class="step-icon"></div><h3>3. Enjoy</h3><p>Pack your bags and enjoy your stay. It's that simple!</p></div>
+        </div>
+
+        <hr class="divider">
+
+        <h2>Why Choose Kaceni?</h2>
+        <div class="reasons">
+            <div class="reason"><span class="reason-icon"></span><div><strong>Verified Listings</strong><p>All properties are reviewed to ensure quality and accuracy.</p></div></div>
+            <div class="reason"><span class="reason-icon"></span><div><strong>Secure Bookings</strong><p>Your booking and personal information are always safe with us.</p></div></div>
+            <div class="reason"><span class="reason-icon"></span><div><strong>Affordable Prices</strong><p>Find great places at prices that fit your budget.</p></div></div>
+            <div class="reason"><span class="reason-icon"></span><div><strong>Wide Range of Locations</strong><p>From city apartments to rural retreats, we have listings everywhere.</p></div></div>
+        </div>
+
+        <hr class="divider">
+
         <h2>Quick Links</h2>
         <ul>
-            <li><a href="{% url 'listing_list' %}"> Listings</a></li>
-            <li><a href="{% url 'amenity_list' %}"> Amenities</a></li>
-            <li><a href="{% url 'booking_list' %}"> Bookings</a></li>
+            <li><a href="{% url 'listing_list' %}">Listings</a></li>
+            <li><a href="{% url 'amenity_list' %}">Amenities</a></li>
+            <li><a href="{% url 'booking_list' %}">Bookings</a></li>
             <li><a href="{% url 'review_list' %}"> Reviews</a></li>
         </ul>
+
     </div>
 </body>
 </html>
-
