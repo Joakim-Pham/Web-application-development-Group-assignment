@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaceni</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <div class="container">
@@ -61,14 +62,38 @@
 
         <hr class="divider">
 
+        <h2>Explore Listings on the Map</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; margin-top:14px;">
+            <div>
+                <p>Browse available rentals around the world. Click on a marker to see listing details.</p>
+                <a href="{% url 'listing_map' %}" class="btn btn-orange" style="margin-top:12px;">View Full Map</a>
+            </div>
+            <div id="map" style="height:220px; border-radius:12px;"></div>
+        </div>
+
+        <hr class="divider">
+
         <h2>Quick Links</h2>
         <ul>
             <li><a href="{% url 'listing_list' %}">Listings</a></li>
             <li><a href="{% url 'amenity_list' %}">Amenities</a></li>
             <li><a href="{% url 'booking_list' %}">Bookings</a></li>
-            <li><a href="{% url 'review_list' %}"> Reviews</a></li>
+            <li><a href="{% url 'review_list' %}">Reviews</a></li>
         </ul>
 
     </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        {% for listing in listings %}
+            L.marker([{{ listing.latitude }}, {{ listing.longitude }}])
+                .addTo(map)
+                .bindPopup("<strong>{{ listing.title|escapejs }}</strong><br>{{ listing.city|escapejs }}, {{ listing.country|escapejs }}");
+        {% endfor %}
+    </script>
 </body>
 </html>

@@ -7,6 +7,9 @@ from .forms import ListingForm, BookingForm
 def home(request):
     return render(request, "listings/home.html")
 
+def home(request):
+    listings = Listing.objects.all()
+    return render(request, "listings/home.html", {"listings": listings})
 
 @login_required
 def listing_list(request):
