@@ -1,0 +1,48 @@
+{% extends "listings/base.html" %}
+
+{% block title %}Map{% endblock %}
+
+{% block content %}
+<h1>Listing Map</h1>
+
+<div id="map" style="height: 600px;"></div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // Create map
+    var map = L.map('map').setView([20, 0], 2);
+
+    // Add tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var bounds = [];
+
+    // Add markers from Django
+    {% for listing in listings %}
+        var lat = {{ listing.latitude }};
+        var lng = {{ listing.longitude }};
+
+        var marker = L.marker([lat, lng]).addTo(map);
+
+        marker.bindPopup(
+            "<strong>{{ listing.title|escapejs }}</strong><br>" +
+            "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}"
+        );
+
+        bounds.push([lat, lng]);
+    {% endfor %}
+
+    // Auto zoom to markers
+    if (bounds.length > 0) {
+        map.fitBounds(bounds);
+    }
+</script>
+
+{% endblock %}

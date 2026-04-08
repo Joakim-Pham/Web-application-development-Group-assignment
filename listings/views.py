@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+
+import listings
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Amenity, Booking, Review
 from .forms import ListingForm, BookingForm
@@ -76,9 +78,9 @@ def booking_create(request):
     else:
         form = BookingForm()
     return render(request, "listings/booking_form.html", {"form": form})
- 
- 
-@login_required
-def review_list(request):
-    reviews = Review.objects.all()
-    return render(request, "listings/review_list.html", {"reviews": reviews})
+
+def listing_map(request):
+
+    listings = Listing.objects.all()
+
+    return render(request, "listings/listing_map.html", {"listings": listings})
