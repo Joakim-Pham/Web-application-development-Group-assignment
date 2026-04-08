@@ -1,0 +1,58 @@
+{% extends "listings/base.html" %}
+
+{% block title %}Profile - {{ user.username }}{% endblock %}
+
+{% block content %}
+<h1>Profile</h1>
+
+<h2>User Information</h2>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Role:</strong> {{ user.role }}</p>
+<p><strong>Phone:</strong> {{ user.phone|default:"Not provided" }}</p>
+
+<hr>
+
+{% if user.role == 'guest' %}
+    <h2>My Bookings</h2>
+    <ul>
+        {% for booking in guest_bookings %}
+            <li>
+                <strong>{{ booking.listing.title }}</strong> —
+                {{ booking.check_in }} to {{ booking.check_out }} —
+                ${{ booking.total_price }}
+            </li>
+        {% empty %}
+            <li>No bookings yet.</li>
+        {% endfor %}
+    </ul>
+
+{% elif user.role == 'host' %}
+    <h2>My Listings</h2>
+    <ul>
+        {% for listing in hosted_listings %}
+            <li>
+                <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+                — {{ listing.status }}
+            </li>
+        {% empty %}
+            <li>No listings yet.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Bookings on My Listings</h2>
+    <ul>
+        {% for booking in host_bookings %}
+            <li>
+                <strong>{{ booking.listing.title }}</strong> —
+                Guest: {{ booking.guest.username }} —
+                {{ booking.check_in }} to {{ booking.check_out }} —
+                ${{ booking.total_price }}
+            </li>
+        {% empty %}
+            <li>No bookings yet.</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

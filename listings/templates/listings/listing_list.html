@@ -1,39 +1,24 @@
 {% extends "listings/base.html" %}
 
-    <a href="{% url 'listing_create' %}">Create New Listing</a>
-
-    <ul>
-        {% for listing in listings %}
-            <li>
-                <a href="{% url 'listing_detail' listing.id %}">
-                    {{ listing.title }}
-                </a>
-                - {{ listing.city }}, {{ listing.country }}
-                - {{ listing.price_per_night }}
-
-                <a href="{% url 'listing_update' listing.id %}">Edit</a>
-                <a href="{% url 'listing_delete' listing.id %}">Delete</a>
-            </li>
-        {% empty %}
-            <li>No listings available.</li>
-        {% endfor %}
-    </ul>
+{% block title %}Listings{% endblock %}
 
 {% block content %}
 <h1>Listings</h1>
 
-<ul>
-    {% for listing in listings %}
-        <li>
-            <a href="{% url 'listing_detail' listing.id %}">
-                {{ listing.title }}
-            </a>
-            - {{ listing.city }}, {{ listing.country }}
-        </li>
-    {% empty %}
-        <li>No listings available.</li>
-    {% endfor %}
-</ul>
+<hr>
+
+{% for listing in listings %}
+    <div>
+        <h2>
+            <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+        </h2>
+        <p>{{ listing.get_property_type_display }} — {{ listing.city }}, {{ listing.country }}</p>
+        <p>${{ listing.price_per_night }} / night — {{ listing.max_guests }} guests — {{ listing.square_meters }} m²</p>
+    </div>
+    <hr>
+{% empty %}
+    <p>No listings available.</p>
+{% endfor %}
 
 <a href="{% url 'home' %}">Back to home</a>
 {% endblock %}

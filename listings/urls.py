@@ -12,5 +12,8 @@ urlpatterns = [
     path("bookings/", views.booking_list, name="booking_list"),
     path("bookings/create/", views.booking_create, name="booking_create"),
     path("reviews/", views.review_list, name="review_list"),
+    path("profile/<int:user_id>/", views.profile, name="profile"),
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
 ]
-

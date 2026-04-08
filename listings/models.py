@@ -29,11 +29,22 @@ class Listing(models.Model):
         ('pending', 'Pending'),
     ]
 
+    PROPERTY_TYPE_CHOICES = [
+        ('apartment', 'Apartment'),
+        ('house', 'House'),
+        ('villa', 'Villa'),
+        ('room', 'Room'),
+        ('studio', 'Studio'),
+    ]
+
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='listings')
     title = models.CharField(max_length=200)
     description = models.TextField()
     price_per_night = models.DecimalField(max_digits=8, decimal_places=2)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
+    property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default='apartment')
+    max_guests = models.IntegerField(default=1)
+    square_meters = models.FloatField(null=True, blank=True)
 
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
