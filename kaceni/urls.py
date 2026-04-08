@@ -25,3 +25,6 @@ urlpatterns = [
     # 👇 ADD THIS (homepage)
     path("", views.home, name="home"),
 ]
+    path("", include("listings.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
+]
