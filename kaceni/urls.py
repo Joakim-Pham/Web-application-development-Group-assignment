@@ -16,14 +16,6 @@ Including another URLconf
 """
 
 from django.contrib import admin
-<<<<<<< Updated upstream:kaceni/urls.py
-from django.urls import path, include
-
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", include("listings.urls")),
-]
-=======
 from django.urls import path
 from listings import views   # 👈 ADD THIS
 
@@ -33,4 +25,3 @@ urlpatterns = [
     # 👇 ADD THIS (homepage)
     path("", views.home, name="home"),
 ]
->>>>>>> Stashed changes:kaceni/kaceni/urls.py
