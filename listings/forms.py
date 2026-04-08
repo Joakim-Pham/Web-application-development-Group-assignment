@@ -1,6 +1,5 @@
 from django import forms
-from django import forms
-from .models import User, Booking
+from .models import User, Booking, Listing
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -9,6 +8,12 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'role', 'phone']
+
+
+class ListingForm(forms.ModelForm):
+    class Meta:
+        model = Listing
+        fields = ['title', 'description', 'price_per_night', 'status', 'city', 'country', 'address', 'latitude', 'longitude', 'amenities']
 
 
 class BookingForm(forms.ModelForm):
@@ -20,12 +25,7 @@ class BookingForm(forms.ModelForm):
         cleaned_data = super().clean()
         check_in = cleaned_data.get("check_in")
         check_out = cleaned_data.get("check_out")
-
         if check_in and check_out:
             if check_out <= check_in:
-                raise forms.ValidationError(
-                    "Check-out date must be after check-in date."
-                )
-
+                raise forms.ValidationError("Check-out date must be after check-in date.")
         return cleaned_data
-
