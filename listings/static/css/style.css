@@ -199,3 +199,5 @@ tr:hover td { background: #fafafa; }
     .steps, .reasons { grid-template-columns: 1fr; }
     .hero-stats { gap: 20px; }
 }
+
+#map { z-index: 1; }

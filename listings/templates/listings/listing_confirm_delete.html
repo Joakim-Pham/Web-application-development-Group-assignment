@@ -1,0 +1,9 @@
+<h1>Delete Listing</h1>
+<p>Are you sure you want to delete "{{ listing.title }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+</form>
+
+<a href="{% url 'listing_detail' listing.id %}">Cancel</a>
