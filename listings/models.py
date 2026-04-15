@@ -55,7 +55,7 @@ class ListingAmenity(models.Model):
 
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
-    image_url = models.URLField()
+    image = models.ImageField(upload_to="listing_images/", null=True, blank=True)
 
     def __str__(self):
         return f"Image for {self.listing.title}"
