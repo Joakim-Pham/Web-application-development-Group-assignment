@@ -2,14 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Listing, Amenity, Booking, Review
 from .forms import ListingForm, BookingForm
+from decimal import Decimal
 
-
-def home(request):
-    return render(request, "listings/home.html")
 
 def home(request):
     listings = Listing.objects.all()
     return render(request, "listings/home.html", {"listings": listings})
+
 
 @login_required
 def listing_list(request):
@@ -71,15 +70,30 @@ def booking_list(request):
 
 @login_required
 def booking_create(request):
+    listing_id = request.GET.get("listing")
+
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
+            booking = form.save(commit=False)
+
+            booking.guest = request.user
+
+            days = (booking.check_out - booking.check_in).days
+            if days < 1:
+                days = 1
+
+            booking.total_price = booking.listing.price_per_night * Decimal(days)
+            booking.save()
+
             return redirect("booking_list")
     else:
-        form = BookingForm()
-    return render(request, "listings/booking_form.html", {"form": form})
+        initial_data = {}
+        if listing_id:
+            initial_data["listing"] = listing_id
+        form = BookingForm(initial=initial_data)
 
+    return render(request, "listings/booking_form.html", {"form": form})
 
 @login_required
 def review_list(request):

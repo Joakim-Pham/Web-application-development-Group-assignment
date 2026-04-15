@@ -20,6 +20,10 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['listing', 'check_in', 'check_out']
+        widgets = {
+            'check_in': forms.DateInput(attrs={'type': 'date'}),
+            'check_out': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()

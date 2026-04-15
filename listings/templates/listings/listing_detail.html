@@ -5,31 +5,43 @@
 {% block content %}
 <h1>{{ listing.title }}</h1>
  
-<p><span style="color:#00C9A7; font-weight:700; font-size:0.85rem; text-transform:uppercase;">📍 {{ listing.city }}, {{ listing.country }}</span></p>
+<p>
+  <span style="color:#00C9A7; font-weight:700; font-size:0.85rem; text-transform:uppercase;">
+    📍 {{ listing.city }}, {{ listing.country }}
+  </span>
+</p>
  
 <hr>
  
 <p><strong>Description:</strong> {{ listing.description }}</p>
 <p><strong>Address:</strong> {{ listing.address }}</p>
-<p><strong>Price per night:</strong> <span style="font-size:1.2rem; font-weight:700; color:#0D1B2A;">${{ listing.price_per_night }}</span></p>
-<p>
-    <strong>Status:</strong>
-    {% if listing.status %}
-        <span class="badge badge-green">Available</span>
-    {% else %}
-        <span class="badge badge-red">Not available</span>
-    {% endif %}
-</p>
- 
-<hr>
- 
+<p><strong>Price per night:</strong> ${{ listing.price_per_night }}</p>
+
+<h3>Photos</h3>
+<div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+    {% for image in listing.images.all %}
+        {% if image.image %}
+            <img
+                src="{{ image.image.url }}"
+                alt="{{ listing.title }}"
+                style="width: 250px; height: 180px; object-fit: cover; border-radius: 8px;"
+            >
+        {% endif %}
+    {% empty %}
+        <p>No images available.</p>
+    {% endfor %}
+</div>
+
 <h3>Amenities</h3>
-{% for amenity in listing.amenities.all %}
-    <span class="chip">✓ {{ amenity.name }}</span>
-{% empty %}
-    <p>No amenities listed.</p>
-{% endfor %}
+<ul>
+    {% for amenity in listing.amenities.all %}
+        <li>{{ amenity.name }}</li>
+    {% empty %}
+        <li>No amenities listed.</li>
+    {% endfor %}
+</ul>
  
 <br><br>
 <a href="{% url 'listing_list' %}" class="back-link">← Back to Listings</a>
+
 {% endblock %}

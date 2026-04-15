@@ -84,16 +84,33 @@
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([20, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-        {% for listing in listings %}
-            L.marker([{{ listing.latitude }}, {{ listing.longitude }}])
-                .addTo(map)
-                .bindPopup("<strong>{{ listing.title|escapejs }}</strong><br>{{ listing.city|escapejs }}, {{ listing.country|escapejs }}");
-        {% endfor %}
-    </script>
+<script>
+    var map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var bounds = [];
+
+    {% for listing in listings %}
+        var lat = {{ listing.latitude }};
+        var lng = {{ listing.longitude }};
+
+        L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(
+                "<strong>{{ listing.title|escapejs }}</strong><br>" +
+                "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}<br>" +
+                "<a href='{% url 'booking_create' %}?listing={{ listing.id }}'>Book now</a>"
+            );
+
+        bounds.push([lat, lng]);
+    {% endfor %}
+
+    if (bounds.length > 0) {
+        map.fitBounds(bounds);
+    }
+</script>
 </body>
 </html>
