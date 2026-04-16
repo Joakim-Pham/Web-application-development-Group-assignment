@@ -1,19 +1,24 @@
 {% extends "listings/base.html" %}
- 
+
 {% block title %}Listings{% endblock %}
- 
+
 {% block content %}
 <h1>Listings</h1>
- 
+
+<hr>
+
 {% for listing in listings %}
-    <div class="listing-item">
-        <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
-        <div class="location">📍 {{ listing.city }}, {{ listing.country }}</div>
+    <div>
+        <h2>
+            <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+        </h2>
+        <p>{{ listing.get_property_type_display }} — {{ listing.city }}, {{ listing.country }}</p>
+        <p>${{ listing.price_per_night }} / night — {{ listing.max_guests }} guests — {{ listing.square_meters }} m²</p>
     </div>
+    <hr>
 {% empty %}
     <p>No listings available.</p>
 {% endfor %}
- 
-<a href="{% url 'home' %}" class="back-link">← Back to home</a>
+
+<a href="{% url 'home' %}">Back to home</a>
 {% endblock %}
- 

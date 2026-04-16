@@ -1,14 +1,11 @@
 from django import forms
-from .models import User, Booking, Listing
+from django.contrib.auth.forms import UserCreationForm
+from .models import Listing, Booking, User
 
-
-class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-
+class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'role', 'phone']
-
+        fields = ['username', 'email', 'role', 'phone', 'password1', 'password2']
 
 class ListingForm(forms.ModelForm):
     class Meta:

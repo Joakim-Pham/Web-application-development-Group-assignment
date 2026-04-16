@@ -16,6 +16,9 @@
 <p><strong>Description:</strong> {{ listing.description }}</p>
 <p><strong>Address:</strong> {{ listing.address }}</p>
 <p><strong>Price per night:</strong> ${{ listing.price_per_night }}</p>
+<p><strong>Property type:</strong> {{ listing.get_property_type_display }}</p>
+<p><strong>Max guests:</strong> {{ listing.max_guests }}</p>
+<p><strong>Square meters:</strong> {{ listing.square_meters }} m²</p>
 
 <h3>Photos</h3>
 <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
@@ -32,9 +35,11 @@
     {% endfor %}
 </div>
 
+<hr>
+
 <h3>Amenities</h3>
 <ul>
-    {% for amenity in listing.amenities.all %}
+    {% for amenity in amenities %}
         <li>{{ amenity.name }}</li>
     {% empty %}
         <li>No amenities listed.</li>

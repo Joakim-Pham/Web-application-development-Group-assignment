@@ -38,17 +38,42 @@
             {% endif %}
         </div>
 
-        <h2>About Kaceni</h2>
-        <p>Kaceni is a rental platform where hosts can list their properties and guests can find and book unique places to stay. Whether you are looking for a short weekend getaway or a longer stay, we have something for everyone and everywhere.</p>
+{% block content %}
+<h1>Welcome to Kaceni</h1>
+<p>Find and book your perfect vacation rental.</p>
 
-        <hr class="divider">
+<hr>
 
-        <h2>How It Works</h2>
-        <div class="steps">
-            <div class="step"><div class="step-icon"></div><h3>1. Browse</h3><p>Search through hundreds of listings and find the perfect place for your stay.</p></div>
-            <div class="step"><div class="step-icon"></div><h3>2. Book</h3><p>Pick your dates and confirm your booking in just a few clicks.</p></div>
-            <div class="step"><div class="step-icon"></div><h3>3. Enjoy</h3><p>Pack your bags and enjoy your stay. It's that simple!</p></div>
-        </div>
+<h2>Search</h2>
+<form method="get" action="{% url 'listing_list' %}">
+    <input type="text" name="location" placeholder="City or country">
+    <input type="date" name="check_in" placeholder="Check-in">
+    <input type="date" name="check_out" placeholder="Check-out">
+    <input type="number" name="guests" placeholder="Guests" min="1">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<h2>Available Listings</h2>
+{% for listing in listings %}
+    <div>
+        <h3>
+            <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
+        </h3>
+        <p>{{ listing.get_property_type_display }} — {{ listing.city }}, {{ listing.country }}</p>
+        <p>${{ listing.price_per_night }} / night — {{ listing.max_guests }} guests</p>
+    </div>
+    <hr>
+{% empty %}
+    <p>No listings available.</p>
+{% endfor %}
+
+{% if listings.count > 6 %}
+    <a href="{% url 'listing_list' %}">View all listings →</a>
+{% endif %}
+
+{% endblock %}
 
         <hr class="divider">
 
