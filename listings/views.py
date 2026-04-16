@@ -58,7 +58,7 @@ def booking_create(request):
     return render(request, "listings/booking_form.html", {"form": form})
 
 def home(request):
-    listings = Listing.objects.order_by('-created_at')[:6]
+    listings = Listing.objects.order_by('-created_at')
     return render(request, "listings/home.html", {"listings": listings})
 
 @login_required
