@@ -1,0 +1,1212 @@
+[
+{
+  "model": "listings.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$BDkPLtXjJ2OCzfKZxl0PwE$fiTGCQT3VLHl+4Bhm/va8mfxEfVVfDewy6Gbw2wuKZk=",
+    "last_login": "2026-04-15T23:19:48.845Z",
+    "is_superuser": true,
+    "username": "martyna",
+    "first_name": "",
+    "last_name": "",
+    "email": "martynaurmonaite@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-04-15T23:01:23.621Z",
+    "role": "",
+    "phone": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "listings.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$IweL248ix0aKTc4PNPKWeS$V/ptVeeG6xeP6A/UlQd+t7+cFJN+a5GW+4dCVymwqcI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "host1",
+    "first_name": "",
+    "last_name": "",
+    "email": "host1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-15T23:15:37.901Z",
+    "role": "host",
+    "phone": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 1,
+  "fields": {
+    "name": "WiFi"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 2,
+  "fields": {
+    "name": "Air conditioning"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 3,
+  "fields": {
+    "name": "Kitchen"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 4,
+  "fields": {
+    "name": "Washing machine"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 5,
+  "fields": {
+    "name": "Free parking"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 6,
+  "fields": {
+    "name": "TV"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 7,
+  "fields": {
+    "name": "Heating"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 8,
+  "fields": {
+    "name": "Balcony"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 9,
+  "fields": {
+    "name": "Coffee machine"
+  }
+},
+{
+  "model": "listings.amenity",
+  "pk": 10,
+  "fields": {
+    "name": "Pet friendly"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 1,
+  "fields": {
+    "host": 2,
+    "title": "Oslo City Apartment",
+    "description": "Cozy modern apartment in the heart of Oslo, close to fjords and cultural landmarks.",
+    "price_per_night": "120.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Oslo",
+    "country": "Norway",
+    "address": "Karl Johans gate 1, 0154 Oslo",
+    "latitude": 59.9139,
+    "longitude": 10.7522,
+    "created_at": "2026-04-15T23:15:38.327Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 2,
+  "fields": {
+    "host": 2,
+    "title": "Paris Studio Retreat",
+    "description": "Charming studio near the Eiffel Tower with a romantic city atmosphere.",
+    "price_per_night": "140.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Paris",
+    "country": "France",
+    "address": "10 Rue de Rivoli, 75001 Paris",
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "created_at": "2026-04-15T23:15:38.329Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 3,
+  "fields": {
+    "host": 2,
+    "title": "New York Loft",
+    "description": "Stylish downtown loft with skyline views and easy access to attractions.",
+    "price_per_night": "180.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "New York",
+    "country": "USA",
+    "address": "350 5th Ave, New York, NY 10118",
+    "latitude": 40.7128,
+    "longitude": -74.006,
+    "created_at": "2026-04-15T23:15:38.330Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 4,
+  "fields": {
+    "host": 2,
+    "title": "Tokyo Central Stay",
+    "description": "Compact and modern space in a vibrant district full of restaurants and shops.",
+    "price_per_night": "130.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "1 Chome-1 Shinjuku, Tokyo 160-0022",
+    "latitude": 35.6895,
+    "longitude": 139.6917,
+    "created_at": "2026-04-15T23:15:38.332Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 5,
+  "fields": {
+    "host": 2,
+    "title": "Sydney Harbour Flat",
+    "description": "Bright apartment near the harbour with stunning ocean views.",
+    "price_per_night": "170.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Sydney",
+    "country": "Australia",
+    "address": "200 George St, Sydney NSW 2000",
+    "latitude": -33.8688,
+    "longitude": 151.2093,
+    "created_at": "2026-04-15T23:15:38.333Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 6,
+  "fields": {
+    "host": 2,
+    "title": "London Elegant Flat",
+    "description": "Elegant flat in central London, walking distance to major landmarks.",
+    "price_per_night": "160.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "London",
+    "country": "UK",
+    "address": "221B Baker Street, London NW1",
+    "latitude": 51.5074,
+    "longitude": -0.1278,
+    "created_at": "2026-04-15T23:15:38.334Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 7,
+  "fields": {
+    "host": 2,
+    "title": "Berlin Urban Apartment",
+    "description": "Trendy apartment in a creative neighborhood with great nightlife.",
+    "price_per_night": "115.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Berlin",
+    "country": "Germany",
+    "address": "Alexanderplatz 1, 10178 Berlin",
+    "latitude": 52.52,
+    "longitude": 13.405,
+    "created_at": "2026-04-15T23:15:38.335Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 8,
+  "fields": {
+    "host": 2,
+    "title": "Rome Classic Home",
+    "description": "Classic Italian home near historic ruins and authentic cafes.",
+    "price_per_night": "125.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Rome",
+    "country": "Italy",
+    "address": "Via del Corso 10, 00186 Rome",
+    "latitude": 41.9028,
+    "longitude": 12.4964,
+    "created_at": "2026-04-15T23:15:38.336Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 9,
+  "fields": {
+    "host": 2,
+    "title": "Moscow Central Apartment",
+    "description": "Spacious apartment with traditional design near the city center.",
+    "price_per_night": "110.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Moscow",
+    "country": "Russia",
+    "address": "Red Square, Moscow, 109012",
+    "latitude": 55.7558,
+    "longitude": 37.6173,
+    "created_at": "2026-04-15T23:15:38.337Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 10,
+  "fields": {
+    "host": 2,
+    "title": "Mexico City Color Stay",
+    "description": "Colorful and lively stay in a cultural hotspot full of local food.",
+    "price_per_night": "95.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Mexico City",
+    "country": "Mexico",
+    "address": "Av. Paseo de la Reforma 100, CDMX",
+    "latitude": 19.4326,
+    "longitude": -99.1332,
+    "created_at": "2026-04-15T23:15:38.338Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 11,
+  "fields": {
+    "host": 2,
+    "title": "Sao Paulo Urban Loft",
+    "description": "Urban apartment in a bustling city with vibrant nightlife.",
+    "price_per_night": "100.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "São Paulo",
+    "country": "Brazil",
+    "address": "Avenida Paulista 1000, São Paulo",
+    "latitude": -23.5505,
+    "longitude": -46.6333,
+    "created_at": "2026-04-15T23:15:38.339Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 12,
+  "fields": {
+    "host": 2,
+    "title": "Singapore Orchard Studio",
+    "description": "Clean and modern studio with easy access to public transport.",
+    "price_per_night": "150.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Singapore",
+    "country": "Singapore",
+    "address": "1 Orchard Road, Singapore 238823",
+    "latitude": 1.3521,
+    "longitude": 103.8198,
+    "created_at": "2026-04-15T23:15:38.340Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 13,
+  "fields": {
+    "host": 2,
+    "title": "Shanghai Skyline Apartment",
+    "description": "Luxury high-rise apartment with amazing city views.",
+    "price_per_night": "155.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Shanghai",
+    "country": "China",
+    "address": "100 Century Ave, Pudong, Shanghai",
+    "latitude": 31.2304,
+    "longitude": 121.4737,
+    "created_at": "2026-04-15T23:15:38.341Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 14,
+  "fields": {
+    "host": 2,
+    "title": "New Delhi Comfort Stay",
+    "description": "Comfortable stay near historical sites and busy markets.",
+    "price_per_night": "85.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "New Delhi",
+    "country": "India",
+    "address": "Connaught Place, New Delhi 110001",
+    "latitude": 28.6139,
+    "longitude": 77.209,
+    "created_at": "2026-04-15T23:15:38.342Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 15,
+  "fields": {
+    "host": 2,
+    "title": "Nairobi Peaceful Retreat",
+    "description": "Peaceful retreat with a mix of city life and nature nearby.",
+    "price_per_night": "90.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Nairobi",
+    "country": "Kenya",
+    "address": "Kenyatta Avenue, Nairobi",
+    "latitude": -1.2921,
+    "longitude": 36.8219,
+    "created_at": "2026-04-15T23:15:38.343Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 16,
+  "fields": {
+    "host": 2,
+    "title": "Los Angeles Sunny Flat",
+    "description": "Sunny apartment close to beaches and entertainment hubs.",
+    "price_per_night": "175.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Los Angeles",
+    "country": "USA",
+    "address": "6801 Hollywood Blvd, Los Angeles, CA",
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "created_at": "2026-04-15T23:15:38.344Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 17,
+  "fields": {
+    "host": 2,
+    "title": "Toronto Modern Condo",
+    "description": "Modern condo in a safe area with great city connectivity.",
+    "price_per_night": "135.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Toronto",
+    "country": "Canada",
+    "address": "100 Queen St W, Toronto, ON",
+    "latitude": 43.6532,
+    "longitude": -79.3832,
+    "created_at": "2026-04-15T23:15:38.345Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 18,
+  "fields": {
+    "host": 2,
+    "title": "Stockholm Waterfront Flat",
+    "description": "Minimalist Scandinavian apartment with waterfront views.",
+    "price_per_night": "145.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Stockholm",
+    "country": "Sweden",
+    "address": "Drottninggatan 1, 111 51 Stockholm",
+    "latitude": 59.3293,
+    "longitude": 18.0686,
+    "created_at": "2026-04-15T23:15:38.346Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 19,
+  "fields": {
+    "host": 2,
+    "title": "Dubai Luxury Apartment",
+    "description": "Luxury apartment in a high-end district with modern amenities.",
+    "price_per_night": "220.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Dubai",
+    "country": "UAE",
+    "address": "Sheikh Zayed Road, Dubai",
+    "latitude": 25.2048,
+    "longitude": 55.2708,
+    "created_at": "2026-04-15T23:15:38.347Z"
+  }
+},
+{
+  "model": "listings.listing",
+  "pk": 20,
+  "fields": {
+    "host": 2,
+    "title": "Buenos Aires Stylish Home",
+    "description": "Stylish home with a blend of European charm and local culture.",
+    "price_per_night": "105.00",
+    "property_type": "apartment",
+    "max_guests": 1,
+    "square_meters": null,
+    "bedrooms": null,
+    "bathrooms": null,
+    "number_of_beds": null,
+    "city": "Buenos Aires",
+    "country": "Argentina",
+    "address": "Av. 9 de Julio 1000, Buenos Aires",
+    "latitude": -34.6037,
+    "longitude": -58.3816,
+    "created_at": "2026-04-15T23:15:38.348Z"
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 1,
+  "fields": {
+    "listing": 1,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 2,
+  "fields": {
+    "listing": 1,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 3,
+  "fields": {
+    "listing": 1,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 4,
+  "fields": {
+    "listing": 2,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 5,
+  "fields": {
+    "listing": 2,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 6,
+  "fields": {
+    "listing": 2,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 7,
+  "fields": {
+    "listing": 3,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 8,
+  "fields": {
+    "listing": 3,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 9,
+  "fields": {
+    "listing": 3,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 10,
+  "fields": {
+    "listing": 4,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 11,
+  "fields": {
+    "listing": 4,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 12,
+  "fields": {
+    "listing": 4,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 13,
+  "fields": {
+    "listing": 5,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 14,
+  "fields": {
+    "listing": 5,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 15,
+  "fields": {
+    "listing": 5,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 16,
+  "fields": {
+    "listing": 6,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 17,
+  "fields": {
+    "listing": 6,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 18,
+  "fields": {
+    "listing": 6,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 19,
+  "fields": {
+    "listing": 7,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 20,
+  "fields": {
+    "listing": 7,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 21,
+  "fields": {
+    "listing": 7,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 22,
+  "fields": {
+    "listing": 8,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 23,
+  "fields": {
+    "listing": 8,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 24,
+  "fields": {
+    "listing": 8,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 25,
+  "fields": {
+    "listing": 9,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 26,
+  "fields": {
+    "listing": 9,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 27,
+  "fields": {
+    "listing": 9,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 28,
+  "fields": {
+    "listing": 10,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 29,
+  "fields": {
+    "listing": 10,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 30,
+  "fields": {
+    "listing": 10,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 31,
+  "fields": {
+    "listing": 11,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 32,
+  "fields": {
+    "listing": 11,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 33,
+  "fields": {
+    "listing": 11,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 34,
+  "fields": {
+    "listing": 12,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 35,
+  "fields": {
+    "listing": 12,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 36,
+  "fields": {
+    "listing": 12,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 37,
+  "fields": {
+    "listing": 13,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 38,
+  "fields": {
+    "listing": 13,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 39,
+  "fields": {
+    "listing": 13,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 40,
+  "fields": {
+    "listing": 14,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 41,
+  "fields": {
+    "listing": 14,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 42,
+  "fields": {
+    "listing": 14,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 43,
+  "fields": {
+    "listing": 15,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 44,
+  "fields": {
+    "listing": 15,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 45,
+  "fields": {
+    "listing": 15,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 46,
+  "fields": {
+    "listing": 16,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 47,
+  "fields": {
+    "listing": 16,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 48,
+  "fields": {
+    "listing": 16,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 49,
+  "fields": {
+    "listing": 17,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 50,
+  "fields": {
+    "listing": 17,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 51,
+  "fields": {
+    "listing": 17,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 52,
+  "fields": {
+    "listing": 18,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 53,
+  "fields": {
+    "listing": 18,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 54,
+  "fields": {
+    "listing": 18,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 55,
+  "fields": {
+    "listing": 19,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 56,
+  "fields": {
+    "listing": 19,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 57,
+  "fields": {
+    "listing": 19,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 58,
+  "fields": {
+    "listing": 20,
+    "amenity": 1
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 59,
+  "fields": {
+    "listing": 20,
+    "amenity": 3
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 60,
+  "fields": {
+    "listing": 20,
+    "amenity": 6
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 61,
+  "fields": {
+    "listing": 2,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 62,
+  "fields": {
+    "listing": 3,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 63,
+  "fields": {
+    "listing": 4,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 64,
+  "fields": {
+    "listing": 5,
+    "amenity": 2
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 65,
+  "fields": {
+    "listing": 5,
+    "amenity": 8
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 66,
+  "fields": {
+    "listing": 6,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 67,
+  "fields": {
+    "listing": 7,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 68,
+  "fields": {
+    "listing": 8,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 69,
+  "fields": {
+    "listing": 9,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 70,
+  "fields": {
+    "listing": 10,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 71,
+  "fields": {
+    "listing": 11,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 72,
+  "fields": {
+    "listing": 12,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 73,
+  "fields": {
+    "listing": 13,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 74,
+  "fields": {
+    "listing": 14,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 75,
+  "fields": {
+    "listing": 15,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 76,
+  "fields": {
+    "listing": 16,
+    "amenity": 2
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 77,
+  "fields": {
+    "listing": 16,
+    "amenity": 8
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 78,
+  "fields": {
+    "listing": 19,
+    "amenity": 2
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 79,
+  "fields": {
+    "listing": 19,
+    "amenity": 8
+  }
+},
+{
+  "model": "listings.listingamenity",
+  "pk": 80,
+  "fields": {
+    "listing": 20,
+    "amenity": 5
+  }
+},
+{
+  "model": "listings.listingimage",
+  "pk": 1,
+  "fields": {
+    "listing": 1,
+    "image": "listing_images/ChatGPT_Image_Apr_16_2026_12_41_42_AM_DHAOda0.png"
+  }
+},
+{
+  "model": "listings.booking",
+  "pk": 1,
+  "fields": {
+    "guest": 1,
+    "listing": 3,
+    "check_in": "2026-03-23",
+    "check_out": "2026-03-25",
+    "total_price": "360.00",
+    "created_at": "2026-04-15T23:48:12.336Z"
+  }
+}
+]
