@@ -1,26 +1,39 @@
 {% extends "listings/base.html" %}
-
+ 
 {% block title %}{{ listing.title }}{% endblock %}
-
+ 
 {% block content %}
 <h1>{{ listing.title }}</h1>
-
+ 
+<p>
+  <span style="color:#00C9A7; font-weight:700; font-size:0.85rem; text-transform:uppercase;">
+    📍 {{ listing.city }}, {{ listing.country }}
+  </span>
+</p>
+ 
+<hr>
+ 
 <p><strong>Description:</strong> {{ listing.description }}</p>
-<p><strong>Location:</strong> {{ listing.city }}, {{ listing.country }}</p>
 <p><strong>Address:</strong> {{ listing.address }}</p>
 <p><strong>Price per night:</strong> ${{ listing.price_per_night }}</p>
 <p><strong>Property type:</strong> {{ listing.get_property_type_display }}</p>
 <p><strong>Max guests:</strong> {{ listing.max_guests }}</p>
 <p><strong>Square meters:</strong> {{ listing.square_meters }} m²</p>
 
-<p>
-    <strong>Status:</strong>
-    {% if listing.status == 'active' %}
-        Available
-    {% else %}
-        Not available
-    {% endif %}
-</p>
+<h3>Photos</h3>
+<div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+    {% for image in listing.images.all %}
+        {% if image.image %}
+            <img
+                src="{{ image.image.url }}"
+                alt="{{ listing.title }}"
+                style="width: 250px; height: 180px; object-fit: cover; border-radius: 8px;"
+            >
+        {% endif %}
+    {% empty %}
+        <p>No images available.</p>
+    {% endfor %}
+</div>
 
 <hr>
 
@@ -32,44 +45,8 @@
         <li>No amenities listed.</li>
     {% endfor %}
 </ul>
+ 
+<br><br>
+<a href="{% url 'listing_list' %}" class="back-link">← Back to Listings</a>
 
-<hr>
-
-<hr>
-
-<h3>Book this listing</h3>
-{% if request.user.is_authenticated %}
-    <form method="post">
-        {% csrf_token %}
-        {{ booking_form.as_p }}
-        <button type="submit">Book Now</button>
-    </form>
-{% else %}
-    <p>You need to <a href="{% url 'login' %}">login</a> to book this listing.</p>
-{% endif %}
-
-{% if booked_dates %}
-    <h4>Already booked:</h4>
-    <ul>
-        {% for check_in, check_out in booked_dates %}
-            <li>{{ check_in }} → {{ check_out }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<h3>Reviews</h3>
-<ul>
-    {% for review in reviews %}
-        <li>
-            <strong>Rating:</strong> {{ review.rating }}/5 <br>
-            <strong>Comment:</strong> {{ review.review_text }}
-        </li>
-    {% empty %}
-        <li>No reviews yet.</li>
-    {% endfor %}
-</ul>
-
-<hr>
-
-<a href="{% url 'listing_list' %}">Back to Listings</a>
 {% endblock %}

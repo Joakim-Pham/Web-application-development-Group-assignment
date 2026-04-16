@@ -1,8 +1,8 @@
 """
-URL configuration for kaceni project.
+URL configuration for config project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,15 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
+from listings import views   # 👈 ADD THIS
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("listings.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
-]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # 👇 ADD THIS (homepage)
+    path("", views.home, name="home"),
+]

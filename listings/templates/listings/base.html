@@ -20,6 +20,12 @@
                 <a href="{% url 'register' %}">Register</a>
             {% endif %}
         </nav>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-box success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
 
         {% block content %}{% endblock %}
     </div>
