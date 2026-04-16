@@ -1,19 +1,33 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from .models import Listing, Amenity, Booking, Review
-from .forms import ListingForm, BookingForm
+from .forms import ListingForm, BookingForm, UserRegistrationForm
 
-
-def home(request):
-    return render(request, "listings/home.html")
 
 def home(request):
     listings = Listing.objects.all()
     return render(request, "listings/home.html", {"listings": listings})
 
+def register(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = UserRegistrationForm()
+    return render(request, "registration/register.html", {"form": form})
+
 @login_required
 def listing_list(request):
-    listings = Listing.objects.all()
+    if request.user.is_staff:
+        listings = Listing.objects.all()
+    else:
+        listings = Listing.objects.filter(host=request.user)
     return render(request, "listings/listing_list.html", {"listings": listings})
 
 
@@ -28,7 +42,10 @@ def listing_create(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
         if form.is_valid():
-            form.save()
+            listing = form.save(commit=False)
+            listing.host = request.user
+            listing.save()
+            form.save_m2m()
             return redirect("listing_list")
     else:
         form = ListingForm()
@@ -65,7 +82,10 @@ def amenity_list(request):
 
 @login_required
 def booking_list(request):
-    bookings = Booking.objects.all()
+    if request.user.is_staff:
+        bookings = Booking.objects.all()
+    else:
+        bookings = Booking.objects.filter(guest=request.user)
     return render(request, "listings/booking_list.html", {"bookings": bookings})
 
 
