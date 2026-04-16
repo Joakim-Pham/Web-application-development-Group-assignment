@@ -16,7 +16,7 @@
             {% if request.user.is_authenticated %}
                 <a href="{% url 'profile' user_id=request.user.id %}">Profile</a>
 
-                {% if request.user.role == 'host' %}
+                {% if request.user.role == 'host' or request.user.is_staff %}
                     <a href="{% url 'listing_create' %}">Add Listing</a>
                 {% endif %}
 

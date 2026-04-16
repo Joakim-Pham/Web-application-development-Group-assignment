@@ -86,6 +86,8 @@ def listing_detail(request, listing_id):
 
 @login_required
 def listing_create(request):
+    if not (request.user.role == 'host' or request.user.is_staff):
+        return redirect('home')
     if request.method == "POST":
         form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
