@@ -63,7 +63,7 @@ def home(request):
 
 @login_required
 def listing_list(request):
-    listings = Listing.objects.order_by('-created_at')[:6]
+    listings = Listing.objects.order_by('-created_at')
 
     location = request.GET.get('location')
     check_in = request.GET.get('check_in')
