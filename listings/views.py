@@ -55,12 +55,12 @@ def booking_create(request):
     return render(request, "listings/booking_form.html", {"form": form})
 
 def home(request):
-    listings = Listing.objects.filter(status='active')[:6]
+    listings = Listing.objects.order_by('-created_at')[:6]
     return render(request, "listings/home.html", {"listings": listings})
 
 @login_required
 def listing_list(request):
-    listings = Listing.objects.filter(status='active')
+    listings = Listing.objects.order_by('-created_at')[:6]
 
     location = request.GET.get('location')
     check_in = request.GET.get('check_in')

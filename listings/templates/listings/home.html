@@ -9,24 +9,27 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'listing_list' %}">Listings</a>
-            <a href="{% url 'amenity_list' %}">Amenities</a>
-            <a href="{% url 'booking_list' %}">Bookings</a>
-            <a href="{% url 'review_list' %}">Reviews</a>
-            {% if user.is_authenticated %}
-                <span class="nav-greeting">Hi, {{ user.username }}</span>
-                <form method="post" action="{% url 'logout' %}" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Log out</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}" class="nav-login">Log in</a>
-            {% endif %}
-        </nav>
+        <div class="container">
+            <nav class="navbar">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'listing_list' %}">Listings</a>
 
+                {% if user.is_authenticated %}
+                    <a href="{% url 'booking_list' %}">Bookings</a>
+
+                    {% if user.role == 'host' %}
+                       <a href="{% url 'listing_create' %}">Add Listing</a>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Log out</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-login">Log in</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+</nav>
         <div class="hero">
             <h1>Welcome to <span class="hero-highlight">Kaceni</span></h1>
             <p class="hero-text">Discover rentals from cozy city apartments to countryside retreats.</p>

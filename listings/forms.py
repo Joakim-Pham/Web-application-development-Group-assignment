@@ -10,7 +10,23 @@ class RegisterForm(UserCreationForm):
 class ListingForm(forms.ModelForm):
     class Meta:
         model = Listing
-        fields = ['title', 'description', 'price_per_night', 'status', 'city', 'country', 'address', 'latitude', 'longitude', 'amenities']
+        fields = [
+            'title',
+            'description',
+            'price_per_night',
+            'city',
+            'country',
+            'address',
+            'property_type',
+            'square_meters',
+            'max_guests',
+            'bedrooms',
+            'bathrooms',
+            'number_of_beds',
+            'latitude',
+            'longitude',
+            'amenities',
+]
 
 
 class BookingForm(forms.ModelForm):

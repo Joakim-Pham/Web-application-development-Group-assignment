@@ -23,11 +23,6 @@ class Amenity(models.Model):
 
 
 class Listing(models.Model):
-    STATUS_CHOICES = [
-        ('active', 'Active'),
-        ('inactive', 'Inactive'),
-        ('pending', 'Pending'),
-    ]
 
     PROPERTY_TYPE_CHOICES = [
         ('apartment', 'Apartment'),
@@ -41,10 +36,13 @@ class Listing(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     price_per_night = models.DecimalField(max_digits=8, decimal_places=2)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default='apartment')
     max_guests = models.IntegerField(default=1)
     square_meters = models.FloatField(null=True, blank=True)
+    
+    bedrooms = models.IntegerField(null=True, blank=True)
+    bathrooms = models.IntegerField(null=True, blank=True)
+    number_of_beds = models.IntegerField(null=True, blank=True)
 
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
