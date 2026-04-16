@@ -8,27 +8,9 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'role', 'phone', 'password1', 'password2']
 
 class ListingForm(forms.ModelForm):
-    image = forms.ImageField(required=False)
-
     class Meta:
         model = Listing
-        fields = [
-            'title',
-            'description',
-            'price_per_night',
-            'city',
-            'country',
-            'address',
-            'property_type',
-            'square_meters',
-            'max_guests',
-            'bedrooms',
-            'bathrooms',
-            'number_of_beds',
-            'latitude',
-            'longitude',
-            'amenities',
-]
+        fields = ['title', 'description', 'price_per_night', 'city', 'country', 'address', 'latitude', 'longitude', 'amenities', 'property_type', 'max_guests', 'bedrooms', 'bathrooms']
 
 
 class BookingForm(forms.ModelForm):

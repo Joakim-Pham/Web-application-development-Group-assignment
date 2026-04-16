@@ -193,6 +193,115 @@ tr:hover td { background: #fafafa; }
 .reason-icon { font-size: 1.4rem; }
 .reason p { font-size: 0.85rem; margin: 4px 0 0; }
  
+/* Listing Form */
+.form-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 40px;
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0D1B2A;
+    margin-bottom: 6px;
+}
+
+.form-subtitle {
+    color: #6B7280;
+    margin-bottom: 32px;
+    font-size: 0.95rem;
+}
+
+.form-wrapper p label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #374151;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.form-wrapper p input,
+.form-wrapper p textarea,
+.form-wrapper p select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: #0D1B2A;
+    background: #F9FAFB;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.form-wrapper p input:focus,
+.form-wrapper p textarea:focus,
+.form-wrapper p select:focus {
+    outline: none;
+    border-color: #FF5C28;
+    background: white;
+}
+
+.form-wrapper p { margin-bottom: 20px; }
+
+.photo-upload {
+    border: 2px dashed #E5E7EB;
+    border-radius: 12px;
+    padding: 28px;
+    text-align: center;
+    background: #F9FAFB;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.photo-upload:hover { border-color: #FF5C28; }
+
+.photo-upload input { display: none; }
+
+.photo-upload-label { cursor: pointer; display: block; }
+
+.photo-icon { font-size: 2rem; margin-bottom: 8px; }
+
+.photo-upload p { color: #6B7280; font-size: 0.9rem; margin: 4px 0; }
+
+.photo-upload span { color: #FF5C28; font-weight: 600; }
+
+.photo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.photo-preview img {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #E5E7EB;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #FF5C28;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.submit-btn:hover { background: #e04d1f; }
 
 @media (max-width: 768px) {
     .navbar a span { display: none; }

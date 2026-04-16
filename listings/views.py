@@ -1,10 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Listing, Amenity, Booking, Review, User
+from .models import Listing, Amenity, Booking, Review, User, ListingImage
 from .forms import ListingForm, BookingForm, RegisterForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Listing, Amenity, Booking, Review, ListingImage
-from .forms import ListingForm, BookingForm
 from decimal import Decimal
 
 def register(request):
@@ -46,35 +44,18 @@ def profile(request, user_id):
         "host_bookings": host_bookings,
     })
 
-@login_required
-def booking_create(request):
-    if request.method == "POST":
-        form = BookingForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("booking_list")
-    else:
-        form = BookingForm()
-    return render(request, "listings/booking_form.html", {"form": form})
-
 def home(request):
     listings = Listing.objects.order_by('-created_at')
     return render(request, "listings/home.html", {"listings": listings})
 
-@login_required
 def listing_list(request):
     listings = Listing.objects.order_by('-created_at')
-
     location = request.GET.get('location')
-    check_in = request.GET.get('check_in')
-    check_out = request.GET.get('check_out')
     guests = request.GET.get('guests')
-
     if location:
         listings = listings.filter(city__icontains=location) | listings.filter(country__icontains=location)
     if guests:
         listings = listings.filter(max_guests__gte=guests)
-
     return render(request, "listings/listing_list.html", {"listings": listings})
 
 def listing_detail(request, listing_id):
@@ -82,7 +63,6 @@ def listing_detail(request, listing_id):
     amenities = listing.amenities.all()
     reviews = Review.objects.filter(booking__listing=listing)
     booked_dates = Booking.objects.filter(listing=listing).values_list('check_in', 'check_out')
-    
     booking_form = BookingForm()
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -96,7 +76,6 @@ def listing_detail(request, listing_id):
             booking.total_price = nights * listing.price_per_night
             booking.save()
             return redirect('profile', user_id=request.user.id)
-        
     return render(request, "listings/listing_detail.html", {
         "listing": listing,
         "amenities": amenities,
@@ -105,20 +84,21 @@ def listing_detail(request, listing_id):
         "booking_form": booking_form,
     })
 
+@login_required
 def listing_create(request):
     if request.method == "POST":
         form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
-            listing = form.save()
-
-            image_file = form.cleaned_data.get("image")
-            if image_file:
-                ListingImage.objects.create(listing=listing, image=image_file)
-
+            listing = form.save(commit=False)
+            listing.host = request.user
+            listing.save()
+            form.save_m2m()
+            images = request.FILES.getlist('images')
+            for image in images:
+                ListingImage.objects.create(listing=listing, image=image)
             return redirect("listing_list")
     else:
         form = ListingForm()
-
     return render(request, "listings/listing_form.html", {"form": form})
 
 @login_required
@@ -128,15 +108,12 @@ def listing_update(request, listing_id):
         form = ListingForm(request.POST, request.FILES, instance=listing)
         if form.is_valid():
             listing = form.save()
-
-            image_file = form.cleaned_data.get("image")
-            if image_file:
-                ListingImage.objects.create(listing=listing, image=image_file)
-
+            images = request.FILES.getlist('images')
+            for image in images:
+                ListingImage.objects.create(listing=listing, image=image)
             return redirect("listing_list")
     else:
         form = ListingForm(instance=listing)
-
     return render(request, "listings/listing_form.html", {"form": form})
 
 def listing_delete(request, listing_id):
@@ -146,58 +123,44 @@ def listing_delete(request, listing_id):
         return redirect("listing_list")
     return render(request, "listings/listing_confirm_delete.html", {"listing": listing})
 
-def amenity_list(request):
-    amenities = Amenity.objects.all()
-    return render(request, "listings/amenity_list.html", {"amenities": amenities})
-
-def booking_list(request):
-    bookings = Booking.objects.all()
-    return render(request, "listings/booking_list.html", {"bookings": bookings})
-
 @login_required
 def amenity_list(request):
     amenities = Amenity.objects.all()
     return render(request, "listings/amenity_list.html", {"amenities": amenities})
 
-
 @login_required
 def booking_list(request):
-    bookings = Booking.objects.all()
+    if request.user.is_staff:
+        bookings = Booking.objects.all()
+    else:
+        bookings = Booking.objects.filter(guest=request.user)
     return render(request, "listings/booking_list.html", {"bookings": bookings})
-
 
 @login_required
 def booking_create(request):
     listing_id = request.GET.get("listing")
-
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.guest = request.user
-
             days = (booking.check_out - booking.check_in).days
             if days < 1:
                 days = 1
-
             booking.total_price = booking.listing.price_per_night * Decimal(days)
             booking.save()
-
             return redirect("booking_list")
     else:
         initial_data = {}
         if listing_id:
             initial_data["listing"] = listing_id
         form = BookingForm(initial=initial_data)
-
     return render(request, "listings/booking_form.html", {"form": form})
-
 
 @login_required
 def review_list(request):
     reviews = Review.objects.all()
     return render(request, "listings/review_list.html", {"reviews": reviews})
-
 
 def listing_map(request):
     listings = Listing.objects.all()

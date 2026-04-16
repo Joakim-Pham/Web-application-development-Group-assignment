@@ -1,9 +1,48 @@
-<h1>Listing Form</h1>
+{% extends "listings/base.html" %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+{% block title %}Create Listing{% endblock %}
 
-<a href="{% url 'listing_list' %}">Back to listings</a>
+{% block content %}
+<div class="form-wrapper">
+    <h1 class="form-title">🏠 List Your Property</h1>
+    <p class="form-subtitle">Fill in the details below to publish your listing on Kaceni.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div>
+            <label>📷 Photos</label>
+            <div class="photo-upload" onclick="document.getElementById('photo-input').click()">
+                <label class="photo-upload-label">
+                    <div class="photo-icon">📸</div>
+                    <p><span>Click to upload photos</span></p>
+                    <p>JPG, PNG — multiple allowed</p>
+                </label>
+                <input type="file" id="photo-input" name="images" multiple accept="image/*" onchange="previewPhotos(this)">
+            </div>
+            <div id="photo-preview" class="photo-preview"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">✅ Publish Listing</button>
+    </form>
+
+    <a href="{% url 'listing_list' %}" class="back-link">← Back to listings</a>
+</div>
+
+<script>
+    function previewPhotos(input) {
+        const preview = document.getElementById('photo-preview');
+        preview.innerHTML = '';
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
+{% endblock %}
