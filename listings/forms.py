@@ -8,6 +8,8 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'role', 'phone', 'password1', 'password2']
 
 class ListingForm(forms.ModelForm):
+    image = forms.ImageField(required=False)
+
     class Meta:
         model = Listing
         fields = [

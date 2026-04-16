@@ -3,6 +3,9 @@ from .models import Listing, Amenity, Booking, Review, User
 from .forms import ListingForm, BookingForm, RegisterForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from .models import Listing, Amenity, Booking, Review, ListingImage
+from .forms import ListingForm, BookingForm
+from decimal import Decimal
 
 def register(request):
     if request.method == 'POST':
@@ -104,24 +107,36 @@ def listing_detail(request, listing_id):
 
 def listing_create(request):
     if request.method == "POST":
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            listing = form.save()
+
+            image_file = form.cleaned_data.get("image")
+            if image_file:
+                ListingImage.objects.create(listing=listing, image=image_file)
+
             return redirect("listing_list")
     else:
         form = ListingForm()
+
     return render(request, "listings/listing_form.html", {"form": form})
 
 @login_required
 def listing_update(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
     if request.method == "POST":
-        form = ListingForm(request.POST, instance=listing)
+        form = ListingForm(request.POST, request.FILES, instance=listing)
         if form.is_valid():
-            form.save()
+            listing = form.save()
+
+            image_file = form.cleaned_data.get("image")
+            if image_file:
+                ListingImage.objects.create(listing=listing, image=image_file)
+
             return redirect("listing_list")
     else:
         form = ListingForm(instance=listing)
+
     return render(request, "listings/listing_form.html", {"form": form})
 
 def listing_delete(request, listing_id):
@@ -159,7 +174,6 @@ def booking_create(request):
         form = BookingForm(request.POST)
         if form.is_valid():
             booking = form.save(commit=False)
-
             booking.guest = request.user
 
             days = (booking.check_out - booking.check_in).days
@@ -177,6 +191,7 @@ def booking_create(request):
         form = BookingForm(initial=initial_data)
 
     return render(request, "listings/booking_form.html", {"form": form})
+
 
 @login_required
 def review_list(request):
