@@ -13,6 +13,10 @@ class ListingForm(forms.ModelForm):
         fields = ['title', 'description', 'price_per_night', 'city', 'country', 
                   'address', 'latitude', 'longitude', 'amenities', 'property_type', 
                   'max_guests', 'bedrooms', 'bathrooms', 'available_from', 'available_to']
+        widgets = {
+            'available_from': forms.DateInput(attrs={'type': 'date'}),
+            'available_to': forms.DateInput(attrs={'type': 'date'}),
+        }
 
 
 class BookingForm(forms.ModelForm):

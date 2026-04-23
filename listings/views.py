@@ -73,9 +73,16 @@ def listing_detail(request, listing_id):
             booking.guest = request.user
             booking.listing = listing
             nights = (booking.check_out - booking.check_in).days
-            booking.total_price = nights * listing.price_per_night
-            booking.save()
-            return redirect('profile', user_id=request.user.id)
+
+            if listing.available_from and booking.check_in < listing.available_from:
+                booking_form.add_error(None, f"This listing is only available from {listing.available_from}.")
+            elif listing.available_to and booking.check_out > listing.available_to:
+                booking_form.add_error(None, f"This listing is only available until {listing.available_to}.")
+            else:
+                booking.total_price = nights * listing.price_per_night
+                booking.save()
+                return redirect('profile', user_id=request.user.id)
+
     return render(request, "listings/listing_detail.html", {
         "listing": listing,
         "amenities": amenities,
