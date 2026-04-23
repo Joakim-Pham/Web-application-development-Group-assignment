@@ -1,124 +1,89 @@
+{% extends "listings/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaceni</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<body>
-    <div class="container">
-        <nav class="navbar">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'listing_list' %}">Listings</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'booking_list' %}">Bookings</a>
-                {% if user.role == 'host' %}
-                    <a href="{% url 'listing_create' %}">Add Listing</a>
-                {% endif %}
-                <form method="post" action="{% url 'logout' %}" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Log out</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}" class="nav-login">Log in</a>
-                <a href="{% url 'register' %}">Register</a>
-            {% endif %}
-        </nav>
 
-        <div class="hero">
-            <h1>Welcome to <span class="hero-highlight">Kaceni</span></h1>
-            <p class="hero-text">Discover rentals from cozy city apartments to countryside retreats.</p>
-            <a href="{% url 'listing_list' %}" class="btn btn-orange">Browse Listings</a>
-            {% if not user.is_authenticated %}
-                <a href="{% url 'login' %}" class="btn btn-navy">Log In</a>
-            {% else %}
-                <p class="hero-logged-in">You are logged in as <strong>{{ user.username }}</strong>.</p>
-            {% endif %}
-        </div>
+{% block title %}Kaceni - Find Your Perfect Stay{% endblock %}
 
-        <hr class="divider">
+{% block content %}
 
-        <h2>Search</h2>
-        <form method="get" action="{% url 'listing_list' %}">
-            <input type="text" name="location" placeholder="City or country">
-            <input type="date" name="check_in" placeholder="Check-in">
-            <input type="date" name="check_out" placeholder="Check-out">
-            <input type="number" name="guests" placeholder="Guests" min="1">
-            <button type="submit">Search</button>
-        </form>
+<div class="hero">
+    <h1>Welcome to <span class="hero-highlight">Kaceni</span></h1>
+    <p class="hero-text">Discover rentals from cozy city apartments to countryside retreats.</p>
+    <a href="{% url 'listing_list' %}" class="btn btn-orange">Browse Listings</a>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-navy">Log In</a>
+    {% else %}
+        <p class="hero-logged-in">You are logged in as <strong>{{ user.username }}</strong>.</p>
+    {% endif %}
+</div>
 
-        <hr class="divider">
+<hr class="divider">
 
-        <h2>Available Listings</h2>
-        {% for listing in listings %}
-            <div>
-                <h3>
-                    <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
-                </h3>
-                <p>{{ listing.get_property_type_display }} — {{ listing.city }}, {{ listing.country }}</p>
-                <p>${{ listing.price_per_night }} / night — {{ listing.max_guests }} guests</p>
-            </div>
-            <hr>
-        {% empty %}
-            <p>No listings available.</p>
-        {% endfor %}
+<h2>Search</h2>
+<form method="get" action="{% url 'listing_list' %}">
+    <input type="text" name="location" placeholder="City or country">
+    <input type="date" name="check_in">
+    <input type="date" name="check_out">
+    <input type="number" name="guests" placeholder="Guests" min="1">
+    <button type="submit" class="btn btn-orange">Search</button>
+</form>
 
-        <hr class="divider">
+<hr class="divider">
 
-        <h2>Why Choose Kaceni?</h2>
-        <div class="reasons">
-            <div class="reason"><span class="reason-icon"></span><div><strong>Verified Listings</strong><p>All properties are reviewed to ensure quality and accuracy.</p></div></div>
-            <div class="reason"><span class="reason-icon"></span><div><strong>Secure Bookings</strong><p>Your booking and personal information are always safe with us.</p></div></div>
-            <div class="reason"><span class="reason-icon"></span><div><strong>Affordable Prices</strong><p>Find great places at prices that fit your budget.</p></div></div>
-            <div class="reason"><span class="reason-icon"></span><div><strong>Wide Range of Locations</strong><p>From city apartments to rural retreats, we have listings everywhere.</p></div></div>
-        </div>
-
-        <hr class="divider">
-
-        <h2>Explore Listings on the Map</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; margin-top:14px;">
-            <div>
-                <p>Browse available rentals around the world. Click on a marker to see listing details.</p>
-                <a href="{% url 'listing_map' %}" class="btn btn-orange" style="margin-top:12px;">View Full Map</a>
-            </div>
-            <div id="map" style="height:220px; border-radius:12px;"></div>
-        </div>
-
+<h2>Available Listings</h2>
+{% for listing in listings %}
+    <div class="listing-item">
+        <h3><a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a></h3>
+        <p>{{ listing.get_property_type_display }} — {{ listing.city }}, {{ listing.country }}</p>
+        <p>${{ listing.price_per_night }} / night — {{ listing.max_guests }} guests</p>
     </div>
+{% empty %}
+    <p>No listings available.</p>
+{% endfor %}
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([20, 0], 2);
+<hr class="divider">
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+<h2>Why Choose Kaceni?</h2>
+<div class="reasons">
+    <div class="reason"><div><strong>Verified Listings</strong><p>All properties are reviewed to ensure quality and accuracy.</p></div></div>
+    <div class="reason"><div><strong>Secure Bookings</strong><p>Your booking and personal information are always safe with us.</p></div></div>
+    <div class="reason"><div><strong>Affordable Prices</strong><p>Find great places at prices that fit your budget.</p></div></div>
+    <div class="reason"><div><strong>Wide Range of Locations</strong><p>From city apartments to rural retreats, we have listings everywhere.</p></div></div>
+</div>
 
-        var bounds = [];
+<hr class="divider">
 
-        {% for listing in listings %}
-            {% if listing.latitude and listing.longitude %}
-                var lat = parseFloat("{{ listing.latitude }}".replace(',', '.'));
-                var lng = parseFloat("{{ listing.longitude }}".replace(',', '.'));
+<h2>Explore Listings on the Map</h2>
+<div class="map-section">
+    <div>
+        <p>Browse available rentals around the world. Click on a marker to see listing details.</p>
+        <a href="{% url 'listing_map' %}" class="btn btn-orange">View Full Map</a>
+    </div>
+    <div id="map" class="map-container"></div>
+</div>
 
-                L.marker([lat, lng])
-                    .addTo(map)
-                    .bindPopup(
-                        "<strong>{{ listing.title|escapejs }}</strong><br>" +
-                        "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}<br>" +
-                        "<a href='{% url 'booking_create' %}?listing={{ listing.id }}'>Book now</a>"
-                    );
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    var bounds = [];
+    {% for listing in listings %}
+        {% if listing.latitude and listing.longitude %}
+            var lat = parseFloat("{{ listing.latitude }}".replace(',', '.'));
+            var lng = parseFloat("{{ listing.longitude }}".replace(',', '.'));
+            L.marker([lat, lng])
+                .addTo(map)
+                .bindPopup(
+                    "<strong>{{ listing.title|escapejs }}</strong><br>" +
+                    "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}<br>" +
+                    "<a href='{% url 'booking_create' %}?listing={{ listing.id }}'>Book now</a>"
+                );
+            bounds.push([lat, lng]);
+        {% endif %}
+    {% endfor %}
+    if (bounds.length > 0) { map.fitBounds(bounds); }
+</script>
 
-                bounds.push([lat, lng]);
-            {% endif %}
-        {% endfor %}
-
-        if (bounds.length > 0) {
-            map.fitBounds(bounds);
-        }
-    </script>
-</body>
-</html>
+{% endblock %}
