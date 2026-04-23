@@ -30,6 +30,11 @@
             {{ form.as_p }}
             <button type="submit">Log in</button>
         </form>
+
+        <p style="margin-top:16px; font-size:0.95rem; color:#6B7280;">
+            Don’t have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
  
         <p style="margin-top:16px; font-size:0.88rem; color:#6B7280;">
             <a href="{% url 'home' %}" class="back-link">← Back to home</a>
