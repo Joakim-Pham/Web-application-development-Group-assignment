@@ -39,18 +39,17 @@ class Listing(models.Model):
     property_type = models.CharField(max_length=20, choices=PROPERTY_TYPE_CHOICES, default='apartment')
     max_guests = models.IntegerField(default=1)
     square_meters = models.FloatField(null=True, blank=True)
-    
     bedrooms = models.IntegerField(null=True, blank=True)
     bathrooms = models.IntegerField(null=True, blank=True)
     number_of_beds = models.IntegerField(null=True, blank=True)
-
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
     latitude = models.FloatField()
     longitude = models.FloatField()
-
     amenities = models.ManyToManyField('Amenity', through='ListingAmenity')
+    available_from = models.DateField(null=True, blank=True)
+    available_to = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -90,4 +89,3 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review for booking {self.booking.id} — {self.rating}/5"
-
