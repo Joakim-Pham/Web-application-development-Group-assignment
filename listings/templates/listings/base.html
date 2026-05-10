@@ -20,7 +20,10 @@
                     <a href="{% url 'listing_create' %}">Add Listing</a>
                 {% endif %}
 
-                <a href="{% url 'logout' %}">Log out</a>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">Log out</button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}">Log in</a>
                 <a href="{% url 'register' %}">Register</a>
