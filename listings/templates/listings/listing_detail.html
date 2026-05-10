@@ -1,79 +1,389 @@
 {% extends "listings/base.html" %}
- 
+
 {% block title %}{{ listing.title }}{% endblock %}
- 
+
 {% block content %}
-<h1>{{ listing.title }}</h1>
- 
-<p>
-  <span class="listing-location">
-    📍 {{ listing.city }}, {{ listing.country }}
-  </span>
-</p>
- 
-<hr>
- 
-<p><strong>Description:</strong> {{ listing.description }}</p>
-<p><strong>Address:</strong> {{ listing.address }}</p>
-<p><strong>Price per night:</strong> ${{ listing.price_per_night }}</p>
-<p><strong>Property type:</strong> {{ listing.get_property_type_display }}</p>
-<p><strong>Max guests:</strong> {{ listing.max_guests }}</p>
-<p><strong>Square meters:</strong> {{ listing.square_meters }} m²</p>
 
-<hr>
-
-<h3>📅 Availability</h3>
-{% if listing.available_from or listing.available_to %}
-    <div class="availability">
-        <div class="availability-card">
-            <p class="label">Check-in from</p>
-            <p class="date">{{ listing.available_from }}</p>
-        </div>
-        <div class="availability-card">
-            <p class="label">Check-out by</p>
-            <p class="date">{{ listing.available_to }}</p>
-        </div>
+<!-- Hero: Title + location -->
+<div style="margin-bottom: 24px;">
+    <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 8px;">{{ listing.title }}</h1>
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <span style="color: #666; font-size: 15px;">📍 {{ listing.city }}, {{ listing.country }}</span>
+        <span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">{{ listing.get_property_type_display }}</span>
+        <span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">👥 Max {{ listing.max_guests }} guests</span>
+        {% if listing.bedrooms %}<span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">🛏 {{ listing.bedrooms }} bed{{ listing.bedrooms|pluralize }}</span>{% endif %}
+        {% if listing.bathrooms %}<span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">🚿 {{ listing.bathrooms }} bath{{ listing.bathrooms|pluralize }}</span>{% endif %}
     </div>
-{% else %}
-    <div class="availability-anytime">✅ Available anytime</div>
-{% endif %}
-
-<h3>Photos</h3>
-<div class="listing-photos">
-    {% for image in listing.images.all %}
-        {% if image.image %}
-            <img src="{{ image.image.url }}" alt="{{ listing.title }}" class="listing-photo">
-        {% endif %}
-    {% empty %}
-        <p>No images available.</p>
-    {% endfor %}
 </div>
 
-<hr>
-
-<h3>Amenities</h3>
-<ul>
-    {% for amenity in amenities %}
-        <li>{{ amenity.name }}</li>
-    {% empty %}
-        <li>No amenities listed.</li>
-    {% endfor %}
-</ul>
- 
-<hr>
-
-{% if user.is_authenticated %}
-    <h3>Book this listing</h3>
-    <form method="POST">
-        {% csrf_token %}
-        {{ booking_form.as_p }}
-        <button type="submit" class="btn btn-orange">Book Now</button>
-    </form>
-{% else %}
-    <p>Want to book? <a href="{% url 'login' %}">Log in</a> to make a booking.</p>
+<!-- Photos -->
+{% with images=listing.images.all %}
+{% if images %}
+<div style="margin-bottom: 28px;">
+    {% with first=images.0 %}
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px; border-radius: 16px; overflow: hidden; max-height: 420px;">
+        <div style="overflow: hidden;">
+            {% if first.image %}
+            <img src="{{ first.image.url }}" alt="{{ listing.title }}"
+                 style="width: 100%; height: 420px; object-fit: cover; display: block;">
+            {% endif %}
+        </div>
+        <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 8px;">
+            {% for image in images %}
+                {% if forloop.counter > 1 and forloop.counter <= 3 %}
+                    {% if image.image %}
+                    <div style="overflow: hidden;">
+                        <img src="{{ image.image.url }}" alt="{{ listing.title }}"
+                             style="width: 100%; height: 206px; object-fit: cover; display: block;">
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endwith %}
+</div>
 {% endif %}
+{% endwith %}
 
-<br><br>
-<a href="{% url 'listing_list' %}" class="back-link">← Back to Listings</a>
+<!-- Main content: info left, price card right -->
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start;">
+
+    <!-- LEFT: Details -->
+    <div>
+
+        <!-- Key stats -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px;">
+            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 4px;">💰</div>
+                <div style="font-weight: 700; font-size: 18px;">€{{ listing.price_per_night }}</div>
+                <div style="font-size: 12px; color: #888;">per night</div>
+            </div>
+            {% if listing.square_meters %}
+            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 4px;">📐</div>
+                <div style="font-weight: 700; font-size: 18px;">{{ listing.square_meters }}</div>
+                <div style="font-size: 12px; color: #888;">m²</div>
+            </div>
+            {% endif %}
+            {% if listing.number_of_beds %}
+            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 4px;">🛏</div>
+                <div style="font-weight: 700; font-size: 18px;">{{ listing.number_of_beds }}</div>
+                <div style="font-size: 12px; color: #888;">beds</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+
+        <!-- Description -->
+        <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 12px;">About this place</h2>
+            <p style="color: #444; line-height: 1.7; margin: 0;">{{ listing.description }}</p>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+
+        <!-- Address -->
+        <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 10px;">Location</h2>
+            <p style="color: #666; margin: 0;">📍 {{ listing.address }}, {{ listing.city }}, {{ listing.country }}</p>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+
+        <!-- Availability -->
+        <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 12px;">Availability</h2>
+            {% if listing.available_from or listing.available_to %}
+            <div style="display: flex; gap: 16px;">
+                {% if listing.available_from %}
+                <div style="background: #f9f9f9; border-radius: 10px; padding: 12px 16px;">
+                    <div style="font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">From</div>
+                    <div style="font-weight: 700;">{{ listing.available_from }}</div>
+                </div>
+                {% endif %}
+                {% if listing.available_to %}
+                <div style="background: #f9f9f9; border-radius: 10px; padding: 12px 16px;">
+                    <div style="font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">Until</div>
+                    <div style="font-weight: 700;">{{ listing.available_to }}</div>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <p style="color: #444; margin: 0;">✅ Available anytime</p>
+            {% endif %}
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+
+        <!-- Amenities -->
+        <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 14px;">Amenities</h2>
+            {% if amenities %}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                {% for amenity in amenities %}
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #444;">
+                    <span style="color: #ff7a00;">✓</span> {{ amenity.name }}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="color: #888; margin: 0;">No amenities listed.</p>
+            {% endif %}
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+
+        <!-- Reviews -->
+        {% if reviews %}
+        <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 16px;">Reviews</h2>
+            {% for review in reviews %}
+            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="color: #ff7a00; font-size: 14px;">
+                        {% for i in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}
+                    </span>
+                    <span style="font-size: 13px; color: #888;">by {{ review.booking.guest.username }}</span>
+                </div>
+                <p style="margin: 0; color: #444; font-size: 14px; line-height: 1.6;">{{ review.comment }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- RIGHT: Sticky booking card -->
+    <div style="position: sticky; top: 24px;">
+        <div style="background: white; border: 1px solid #e8e8e8; border-radius: 20px; padding: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+
+            <div style="margin-bottom: 20px;">
+                <span style="font-size: 24px; font-weight: 700;">€{{ listing.price_per_night }}</span>
+                <span style="color: #888; font-size: 15px;"> / night</span>
+            </div>
+
+            {% if user.is_authenticated %}
+
+            <!-- Calendar -->
+            <div style="margin-bottom: 16px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                    <button onclick="changeMonth(-1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:14px;">‹</button>
+                    <span id="cal-title" style="font-weight:700; font-size:13px;"></span>
+                    <button onclick="changeMonth(1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:14px;">›</button>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:4px;">
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Mo</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Tu</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">We</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Th</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Fr</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Sa</div>
+                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Su</div>
+                </div>
+                <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:2px;"></div>
+                <div style="display:flex; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid #f0f0f0;">
+                    <div style="display:flex; align-items:center; gap:4px; font-size:11px; color:#666;">
+                        <div style="width:10px; height:10px; border-radius:2px; background:#ffe4e4;"></div> Booked
+                    </div>
+                    <div style="display:flex; align-items:center; gap:4px; font-size:11px; color:#666;">
+                        <div style="width:10px; height:10px; border-radius:2px; background:#ff7a00;"></div> Selected
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" id="booking-form">
+                {% csrf_token %}
+
+                <!-- Date display -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; border:1.5px solid #e8e8e8; border-radius:12px; overflow:hidden;">
+                    <div style="padding:10px 12px; border-right:1px solid #e8e8e8;">
+                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:3px;">Check-in</div>
+                        <div id="ci-display" style="font-size:13px; font-weight:600; color:#222;">Select</div>
+                    </div>
+                    <div style="padding:10px 12px;">
+                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:3px;">Check-out</div>
+                        <div id="co-display" style="font-size:13px; font-weight:600; color:#222;">Select</div>
+                    </div>
+                </div>
+
+                <div style="display:none;">
+                    {{ booking_form.check_in }}
+                    {{ booking_form.check_out }}
+                </div>
+
+                <!-- Guests stepper -->
+                <div style="border:1.5px solid #e8e8e8; border-radius:12px; padding:10px 14px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+                    <div>
+                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:2px;">Guests</div>
+                        <div style="font-size:12px; color:#666;">max {{ listing.max_guests }}</div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button type="button" onclick="changeGuests(-1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:16px;">−</button>
+                        <span id="guest-count" style="font-weight:700; min-width:16px; text-align:center;">1</span>
+                        <input type="hidden" name="guests" id="guests-input" value="1">
+                        <button type="button" onclick="changeGuests(1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:16px;">+</button>
+                    </div>
+                </div>
+
+                <!-- Price preview -->
+                <div id="price-preview" style="display:none; background:#fff7f0; border-radius:10px; padding:12px 14px; margin-bottom:12px;">
+                    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                        <span id="nights-label" style="color:#666;"></span>
+                        <span id="total-price" style="font-weight:700; color:#ff7a00;"></span>
+                    </div>
+                </div>
+
+                {% if booking_form.errors %}
+                <div style="background:#fff1f1; border-radius:10px; padding:10px 12px; margin-bottom:12px; color:#b00020; font-size:13px;">
+                    {% for error in booking_form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+                    {% for field in booking_form %}{% for error in field.errors %}<div>{{ error }}</div>{% endfor %}{% endfor %}
+                </div>
+                {% endif %}
+
+                <button type="submit" style="width:100%; background:#ff7a00; color:white; border:none; padding:13px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer;">
+                    Reserve
+                </button>
+                <p style="text-align:center; font-size:11px; color:#aaa; margin: 8px 0 0;">You won't be charged yet</p>
+            </form>
+
+            {% else %}
+            <a href="{% url 'login' %}" style="display:block; width:100%; background:#ff7a00; color:white; border:none; padding:13px; border-radius:12px; font-weight:700; font-size:15px; text-align:center; text-decoration:none; box-sizing:border-box;">
+                Log in to book
+            </a>
+            {% endif %}
+
+            <!-- Unavailable dates -->
+            {% if booked_dates %}
+            <div style="margin-top:14px; padding:10px 12px; background:#fff8f8; border-radius:8px;">
+                <div style="font-size:11px; font-weight:600; color:#c00; margin-bottom:6px;">Unavailable dates</div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                    {% for check_in, check_out in booked_dates %}
+                    <span style="font-size:11px; background:white; border:1px solid #ffd0d0; border-radius:20px; padding:2px 8px; color:#c00;">
+                        {{ check_in }} – {{ check_out }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+<a href="{% url 'listing_list' %}" style="color:#ff7a00; font-weight:600; text-decoration:none;">← Back to listings</a>
+
+<script>
+const bookedRanges = [
+    {% for check_in, check_out in booked_dates %}
+        { from: "{{ check_in|date:'Y-m-d' }}", to: "{{ check_out|date:'Y-m-d' }}" },
+    {% endfor %}
+];
+const pricePerNight = {{ listing.price_per_night }};
+const maxGuests = {{ listing.max_guests }};
+let currentDate = new Date();
+let guestCount = 1;
+
+function isBooked(dateStr) {
+    return bookedRanges.some(r => dateStr >= r.from && dateStr < r.to);
+}
+
+function isPast(dateStr) {
+    return dateStr < new Date().toISOString().split('T')[0];
+}
+
+function formatDate(str) {
+    if (!str) return 'Select';
+    const d = new Date(str + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+function renderCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    document.getElementById('cal-title').textContent = `${monthNames[month]} ${year}`;
+    const grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+    const firstDay = new Date(year, month, 1);
+    const startOffset = (firstDay.getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const checkIn = document.querySelector('[name=check_in]').value;
+    const checkOut = document.querySelector('[name=check_out]').value;
+
+    for (let i = 0; i < startOffset; i++) grid.innerHTML += `<div></div>`;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const booked = isBooked(dateStr);
+        const past = isPast(dateStr);
+        const isCI = dateStr === checkIn;
+        const isCO = dateStr === checkOut;
+        const inRange = checkIn && checkOut && dateStr > checkIn && dateStr < checkOut;
+        const isToday = dateStr === new Date().toISOString().split('T')[0];
+
+        let bg = '#f9f9f9', color = '#222', border = '1px solid transparent', cursor = 'pointer', opacity = '1', fw = '400';
+
+        if (past)         { color = '#ccc'; cursor = 'default'; opacity = '0.5'; }
+        else if (booked)  { bg = '#ffe4e4'; color = '#e53935'; cursor = 'not-allowed'; }
+        else if (isCI||isCO) { bg = '#ff7a00'; color = 'white'; fw = '700'; }
+        else if (inRange) { bg = '#fff0e6'; color = '#ff7a00'; }
+        else if (isToday) { border = '1.5px solid #ff7a00'; color = '#ff7a00'; }
+
+        grid.innerHTML += `<div onclick="${!booked && !past ? `pickDate('${dateStr}')` : ''}"
+            title="${booked ? 'Already booked' : ''}"
+            style="text-align:center;padding:6px 2px;border-radius:6px;font-size:12px;background:${bg};color:${color};border:${border};cursor:${cursor};opacity:${opacity};font-weight:${fw};">${d}</div>`;
+    }
+}
+
+function pickDate(dateStr) {
+    const ciInput = document.querySelector('[name=check_in]');
+    const coInput = document.querySelector('[name=check_out]');
+    if (!ciInput.value || (ciInput.value && coInput.value)) {
+        ciInput.value = dateStr; coInput.value = '';
+    } else if (dateStr > ciInput.value) {
+        let blocked = false, d = new Date(ciInput.value);
+        d.setDate(d.getDate() + 1);
+        while (d.toISOString().split('T')[0] <= dateStr) {
+            if (isBooked(d.toISOString().split('T')[0])) { blocked = true; break; }
+            d.setDate(d.getDate() + 1);
+        }
+        if (blocked) { alert('Range includes booked dates.'); ciInput.value = ''; coInput.value = ''; }
+        else { coInput.value = dateStr; calcPrice(); }
+    } else { ciInput.value = dateStr; coInput.value = ''; }
+    document.getElementById('ci-display').textContent = formatDate(ciInput.value);
+    document.getElementById('co-display').textContent = formatDate(coInput.value);
+    renderCalendar();
+}
+
+function changeMonth(dir) {
+    currentDate.setMonth(currentDate.getMonth() + dir);
+    renderCalendar();
+}
+
+function changeGuests(dir) {
+    guestCount = Math.min(maxGuests, Math.max(1, guestCount + dir));
+    document.getElementById('guest-count').textContent = guestCount;
+    document.getElementById('guests-input').value = guestCount;
+}
+
+function calcPrice() {
+    const ci = new Date(document.querySelector('[name=check_in]').value);
+    const co = new Date(document.querySelector('[name=check_out]').value);
+    const nights = (co - ci) / (1000 * 60 * 60 * 24);
+    const preview = document.getElementById('price-preview');
+    if (nights > 0) {
+        preview.style.display = 'block';
+        document.getElementById('nights-label').textContent = `${nights} night${nights!==1?'s':''} × €${pricePerNight}`;
+        document.getElementById('total-price').textContent = `€${(nights * pricePerNight).toFixed(2)}`;
+    } else { preview.style.display = 'none'; }
+}
+
+renderCalendar();
+</script>
 
 {% endblock %}

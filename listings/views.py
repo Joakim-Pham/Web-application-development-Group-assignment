@@ -64,6 +64,7 @@ def listing_detail(request, listing_id):
     reviews = Review.objects.filter(booking__listing=listing)
     booked_dates = Booking.objects.filter(listing=listing).values_list('check_in', 'check_out')
     booking_form = BookingForm()
+
     if request.method == 'POST':
         if not request.user.is_authenticated:
             return redirect('login')
@@ -72,16 +73,24 @@ def listing_detail(request, listing_id):
             booking = booking_form.save(commit=False)
             booking.guest = request.user
             booking.listing = listing
-            nights = (booking.check_out - booking.check_in).days
 
-            if listing.available_from and booking.check_in < listing.available_from:
+            # ✅ Check for overlapping bookings
+            overlapping = Booking.objects.filter(
+                listing=listing,
+                check_in__lt=booking.check_out,
+                check_out__gt=booking.check_in
+            )
+            if overlapping.exists():
+                booking_form.add_error(None, "These dates are already booked. Please choose different dates.")
+            elif listing.available_from and booking.check_in < listing.available_from:
                 booking_form.add_error(None, f"This listing is only available from {listing.available_from}.")
             elif listing.available_to and booking.check_out > listing.available_to:
                 booking_form.add_error(None, f"This listing is only available until {listing.available_to}.")
             else:
+                nights = (booking.check_out - booking.check_in).days
                 booking.total_price = nights * listing.price_per_night
                 booking.save()
-                return redirect('profile', user_id=request.user.id)
+            return redirect('booking_confirmation', booking_id=booking.id)
 
     return render(request, "listings/listing_detail.html", {
         "listing": listing,
@@ -174,3 +183,35 @@ def review_list(request):
 def listing_map(request):
     listings = Listing.objects.all()
     return render(request, "listings/listing_map.html", {"listings": listings})
+
+@login_required
+def booking_create(request):
+    listing_id = request.GET.get("listing")
+    listing = get_object_or_404(Listing, id=listing_id) if listing_id else None
+
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.guest = request.user
+            booking.listing = listing
+            days = max((booking.check_out - booking.check_in).days, 1)
+            booking.total_price = listing.price_per_night * Decimal(days)
+            booking.save()
+            return redirect("booking_list")
+    else:
+        form = BookingForm()
+
+    return render(request, "listings/booking_form.html", {
+        "form": form,
+        "listing": listing,
+    })
+
+
+
+
+
+def booking_confirmation(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, guest=request.user)
+    return render(request, "listings/booking_confirmation.html", {"booking": booking})
+    

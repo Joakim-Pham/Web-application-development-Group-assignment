@@ -13,45 +13,52 @@
         <form method="post">
             {% csrf_token %}
 
-            <div style="display: grid; gap: 20px;">
+            {% if listing %}
+                <input type="hidden" name="listing" value="{{ listing.id }}">
+                <div style="margin-bottom: 20px; padding: 14px; background: #f9f9f9; border-radius: 10px;">
+                    <strong>{{ listing.title }}</strong>
+                    <span style="color:#666; margin-left:10px;">€{{ listing.price_per_night }} / night</span>
+                </div>
+            {% endif %}
+
+            <div class="date-grid">
                 <div>
-                    <label for="{{ form.listing.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
-                        Listing
+                    <label for="{{ form.check_in.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
+                        Check in
                     </label>
-                    {{ form.listing }}
+                    {{ form.check_in }}
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                    <div>
-                        <label for="{{ form.check_in.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
-                            Check in
-                        </label>
-                        {{ form.check_in }}
-                    </div>
-
-                    <div>
-                        <label for="{{ form.check_out.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
-                            Check out
-                        </label>
-                        {{ form.check_out }}
-                    </div>
+                <div>
+                    <label for="{{ form.check_out.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
+                        Check out
+                    </label>
+                    {{ form.check_out }}
                 </div>
+            </div>
+
+            <!-- Price preview (inside the card, inside the form) -->
+            <div id="price-preview" style="display:none; padding:14px; background:#fff7f0; border-radius:10px; margin-top:16px;">
+                <strong>Estimated total:</strong> <span id="total-price"></span>
             </div>
 
             {% if form.errors %}
                 <div style="margin-top: 20px; padding: 14px 16px; border-radius: 10px; background:#fff1f1; color:#b00020;">
-                    {{ form.non_field_errors }}
+                    {% for error in form.non_field_errors %}
+                        <p style="margin:0 0 6px;">{{ error }}</p>
+                    {% endfor %}
                     {% for field in form %}
-                        {{ field.errors }}
+                        {% for error in field.errors %}
+                            <p style="margin:0 0 6px;"><strong>{{ field.label }}:</strong> {{ error }}</p>
+                        {% endfor %}
                     {% endfor %}
                 </div>
             {% endif %}
 
             <div style="display:flex; gap:12px; margin-top: 28px;">
                 <button type="submit" style="background:#ff7a00; color:white; border:none; padding:12px 22px; border-radius:10px; font-weight:600; cursor:pointer;">
-                    Save booking
+                    Confirm booking
                 </button>
-
                 <a href="{% url 'booking_list' %}" style="display:inline-block; padding:12px 22px; border-radius:10px; text-decoration:none; background:#f3f4f6; color:#222; font-weight:600;">
                     Back
                 </a>
@@ -60,7 +67,35 @@
     </div>
 </div>
 
+<script>
+const pricePerNight = {{ listing.price_per_night|default:0 }};
+
+document.querySelector('[name=check_in]').addEventListener('change', calcPrice);
+document.querySelector('[name=check_out]').addEventListener('change', calcPrice);
+
+function calcPrice() {
+    const ci = new Date(document.querySelector('[name=check_in]').value);
+    const co = new Date(document.querySelector('[name=check_out]').value);
+    const nights = (co - ci) / (1000 * 60 * 60 * 24);
+    const preview = document.getElementById('price-preview');
+    if (nights > 0) {
+        preview.style.display = 'block';
+        document.getElementById('total-price').textContent =
+            `€${(nights * pricePerNight).toFixed(2)} (${nights} night${nights !== 1 ? 's' : ''})`;
+    } else {
+        preview.style.display = 'none';
+    }
+}
+</script>
+
 <style>
+    .date-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 20px;
+    }
+
     select,
     input[type="date"],
     input[type="text"],
@@ -82,9 +117,11 @@
     }
 
     @media (max-width: 640px) {
-        form > div > div[style*="grid-template-columns"] {
-            grid-template-columns: 1fr !important;
+        .date-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
+<input type="hidden" name="listing_id" value="{{ listing.id }}">
+
 {% endblock %}

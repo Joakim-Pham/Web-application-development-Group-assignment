@@ -45,3 +45,19 @@ class BookingForm(forms.ModelForm):
                     raise forms.ValidationError(f"This listing is only available until {listing.available_to}.")
 
         return cleaned_data
+    
+
+def clean(self):
+    cleaned_data = super().clean()
+    check_in = cleaned_data.get("check_in")
+    check_out = cleaned_data.get("check_out")
+
+    if check_in and check_out:
+        if check_out <= check_in:
+            raise forms.ValidationError("Check-out date must be after check-in date.")
+        
+        from datetime import date
+        if check_in < date.today():
+            raise forms.ValidationError("Check-in date cannot be in the past.")
+
+    return cleaned_data

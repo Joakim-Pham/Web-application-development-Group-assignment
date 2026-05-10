@@ -23,7 +23,6 @@ class Amenity(models.Model):
 
 
 class Listing(models.Model):
-
     PROPERTY_TYPE_CHOICES = [
         ('apartment', 'Apartment'),
         ('house', 'House'),
@@ -75,6 +74,7 @@ class Booking(models.Model):
     check_in = models.DateField()
     check_out = models.DateField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    guests = models.IntegerField(default=1)  # ✅ only here
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
