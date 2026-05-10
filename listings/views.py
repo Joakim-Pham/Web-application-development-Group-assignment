@@ -113,6 +113,10 @@ def listing_create(request):
 @login_required
 def listing_update(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
+
+    if request.user != listing.host and not request.user.is_staff:
+        return redirect('profile', user_id=request.user.id)
+
     if request.method == "POST":
         form = ListingForm(request.POST, request.FILES, instance=listing)
         if form.is_valid():
@@ -120,17 +124,23 @@ def listing_update(request, listing_id):
             images = request.FILES.getlist('images')
             for image in images:
                 ListingImage.objects.create(listing=listing, image=image)
-            return redirect("listing_list")
+            return redirect('profile', user_id=request.user.id)
     else:
         form = ListingForm(instance=listing)
+
     return render(request, "listings/listing_form.html", {"form": form})
 
 def listing_delete(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
+
+    if request.user != listing.host and not request.user.is_staff:
+        return redirect('profile', user_id=request.user.id)
+
     if request.method == "POST":
         listing.delete()
-        return redirect("listing_list")
-    return render(request, "listings/listing_confirm_delete.html", {"listing": listing})
+        return redirect('profile', user_id=request.user.id)
+
+    return redirect('profile', user_id=request.user.id)
 
 @login_required
 def amenity_list(request):
