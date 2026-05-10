@@ -16,6 +16,7 @@ class ListingForm(forms.ModelForm):
         widgets = {
             'available_from': forms.DateInput(attrs={'type': 'date'}),
             'available_to': forms.DateInput(attrs={'type': 'date'}),
+            'amenities': forms.CheckboxSelectMultiple(),
         }
 
 
