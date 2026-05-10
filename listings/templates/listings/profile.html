@@ -34,6 +34,15 @@
             <li>
                 <a href="{% url 'listing_detail' listing.id %}">{{ listing.title }}</a>
                 — {{ listing.status }}
+
+                <a href="{% url 'listing_update' listing.id %}" class="edit-btn">Edit</a>
+
+                <form method="post" action="{% url 'listing_delete' listing.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this listing?');">
+                        Delete
+                    </button>
+                </form>
             </li>
         {% empty %}
             <li>No listings yet.</li>
