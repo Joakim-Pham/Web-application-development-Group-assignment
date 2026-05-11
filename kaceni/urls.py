@@ -26,6 +26,8 @@ urlpatterns = [
     path("", include("listings.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("bookings/<int:booking_id>/confirmation/", views.booking_confirmation, name="booking_confirmation"),
+    path("bookings/<int:booking_id>/review/", views.review_create, name="review_create"),
+
 
 ]
 

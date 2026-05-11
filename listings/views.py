@@ -45,17 +45,35 @@ def profile(request, user_id):
     })
 
 def home(request):
-    listings = Listing.objects.order_by('-created_at')
-    return render(request, "listings/home.html", {"listings": listings})
+    listings = Listing.objects.prefetch_related('images').order_by('-created_at')
+    return render(request, "listings/home.html", {
+        "listings": listings,
+        "property_types": Listing.PROPERTY_TYPE_CHOICES,
+    })
 
 def listing_list(request):
-    listings = Listing.objects.order_by('-created_at')
+    listings = Listing.objects.prefetch_related('images').order_by('-created_at')
     location = request.GET.get('location')
     guests = request.GET.get('guests')
+    property_type = request.GET.get('property_type')
+    check_in = request.GET.get('check_in')
+    check_out = request.GET.get('check_out')
+
     if location:
         listings = listings.filter(city__icontains=location) | listings.filter(country__icontains=location)
     if guests:
         listings = listings.filter(max_guests__gte=guests)
+    if property_type:
+        listings = listings.filter(property_type=property_type)
+    if check_in and check_out:
+        from datetime import datetime
+        ci = datetime.strptime(check_in, '%Y-%m-%d').date()
+        co = datetime.strptime(check_out, '%Y-%m-%d').date()
+        listings = listings.exclude(
+            bookings__check_in__lt=co,
+            bookings__check_out__gt=ci
+        )
+
     return render(request, "listings/listing_list.html", {"listings": listings})
 
 def listing_detail(request, listing_id):
@@ -214,4 +232,43 @@ def booking_create(request):
 def booking_confirmation(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, guest=request.user)
     return render(request, "listings/booking_confirmation.html", {"booking": booking})
-    
+
+@login_required
+def review_create(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, guest=request.user)
+
+    # Check booking has already happened (check_out in the past)
+    from datetime import date
+    if booking.check_out > date.today():
+        return redirect('profile', user_id=request.user.id)
+
+    # Check no review exists yet
+    if hasattr(booking, 'review'):
+        return redirect('profile', user_id=request.user.id)
+
+    if request.method == 'POST':
+        rating = int(request.POST.get('rating', 0))
+        comment = request.POST.get('comment', '').strip()
+        if 1 <= rating <= 5 and comment:
+            Review.objects.create(
+                booking=booking,
+                rating=rating,
+                comment=comment
+            )
+            return redirect('profile', user_id=request.user.id)
+
+    return render(request, 'listings/review_form.html', {'booking': booking})
+
+def profile(request, user_id):
+    from datetime import date
+    user = get_object_or_404(User, id=user_id)
+    guest_bookings = Booking.objects.filter(guest=user).select_related('listing', 'review')
+    hosted_listings = Listing.objects.filter(host=user)
+    host_bookings = Booking.objects.filter(listing__host=user)
+    return render(request, "listings/profile.html", {
+        "user": user,
+        "guest_bookings": guest_bookings,
+        "hosted_listings": hosted_listings,
+        "host_bookings": host_bookings,
+        "today": date.today(),
+    })
