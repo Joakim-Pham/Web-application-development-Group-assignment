@@ -65,22 +65,24 @@
             </button>
         </div>
 
+        
         <!-- Property type filter pills -->
-        <div style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;">
-            <span style="font-size:12px; color:#aaa; align-self:center; margin-right:4px;">Type:</span>
+        <div style="display:flex; gap:8px; margin-top:16px; margin-bottom:24px; flex-wrap:wrap; align-items:center;">
+            <span style="font-size:12px; color:#aaa; margin-right:4px;">Type:</span>
+            <a href="{% url 'listing_list' %}"
+               style="display:inline-block; padding:6px 16px; border-radius:20px; border:1.5px solid #e8e8e8; background:white; color:#444; font-size:13px; font-weight:500; text-decoration:none;">
+                All
+            </a>
             {% for value, label in property_types %}
-            <label style="cursor:pointer;">
-                <input type="radio" name="property_type" value="{{ value }}" style="display:none;">
-                <span class="type-pill">{{ label }}</span>
-            </label>
+            <a href="{% url 'listing_list' %}?property_type={{ value }}"
+               style="display:inline-block; padding:6px 16px; border-radius:20px; border:1.5px solid #e8e8e8; background:white; color:#444; font-size:13px; font-weight:500; text-decoration:none;"
+               onmouseover="this.style.background='#ff7a00'; this.style.color='white'; this.style.borderColor='#ff7a00';"
+               onmouseout="this.style.background='white'; this.style.color='#444'; this.style.borderColor='#e8e8e8';">
+                {{ label }}
+            </a>
             {% endfor %}
-            <label style="cursor:pointer;">
-                <input type="radio" name="property_type" value="" checked style="display:none;">
-                <span class="type-pill type-pill-active">All</span>
-            </label>
         </div>
     </form>
-</div>
 
 <!-- AVAILABLE LISTINGS -->
 <div style="margin-bottom:48px;">

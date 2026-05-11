@@ -228,6 +228,45 @@
                     </div>
                 </div>
 
+                <!-- Add-on services -->
+                {% with addons=listing.addons.all %}
+                {% if addons %}
+                <div style="border:1.5px solid #e8e8e8; border-radius:12px; padding:14px; margin-bottom:12px;">
+                    <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:10px;">Optional add-ons</div>
+                    {% for addon in addons %}
+                    <label style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f5f5f5; cursor:pointer;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <input type="checkbox" name="addon_{{ addon.id }}" value="{{ addon.price }}"
+                                   data-perperson="{% if addon.service == 'breakfast' or addon.service == 'dinner' %}true{% else %}false{% endif %}"
+                                   onchange="calcTotal()"
+                                   style="width:16px; height:16px; accent-color:#ff7a00;">
+                            <div>
+                                <div style="font-size:13px; font-weight:600;" class="addon-name">
+                                    {% if addon.service == 'breakfast' %}🍳{% elif addon.service == 'airport_transfer' %}🚗{% elif addon.service == 'dinner' %}🍽{% endif %}
+                                    {{ addon.get_service_display }}
+                                </div>
+                                <div style="font-size:11px; color:#aaa;">
+                                    {{ addon.description }}
+                                    {% if addon.service == 'breakfast' or addon.service == 'dinner' %}
+                                    <span style="color:#ff7a00; font-weight:600;">· per person</span>
+                                    {% else %}
+                                    <span style="color:#888;">· flat rate</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size:13px; font-weight:700; color:#ff7a00; white-space:nowrap; margin-left:8px;">
+                            +€{{ addon.price }}
+                            {% if addon.service == 'breakfast' or addon.service == 'dinner' %}
+                            <span style="font-size:10px; color:#aaa; font-weight:400;">/person</span>
+                            {% endif %}
+                        </div>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
                 <!-- Price preview -->
                 <div id="price-preview" style="display:none; background:#fff7f0; border-radius:10px; padding:12px 14px; margin-bottom:12px;">
                     <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
@@ -328,11 +367,11 @@ function renderCalendar() {
 
         let bg = '#f9f9f9', color = '#222', border = '1px solid transparent', cursor = 'pointer', opacity = '1', fw = '400';
 
-        if (past)         { color = '#ccc'; cursor = 'default'; opacity = '0.5'; }
-        else if (booked)  { bg = '#ffe4e4'; color = '#e53935'; cursor = 'not-allowed'; }
+        if (past)            { color = '#ccc'; cursor = 'default'; opacity = '0.5'; }
+        else if (booked)     { bg = '#ffe4e4'; color = '#e53935'; cursor = 'not-allowed'; }
         else if (isCI||isCO) { bg = '#ff7a00'; color = 'white'; fw = '700'; }
-        else if (inRange) { bg = '#fff0e6'; color = '#ff7a00'; }
-        else if (isToday) { border = '1.5px solid #ff7a00'; color = '#ff7a00'; }
+        else if (inRange)    { bg = '#fff0e6'; color = '#ff7a00'; }
+        else if (isToday)    { border = '1.5px solid #ff7a00'; color = '#ff7a00'; }
 
         grid.innerHTML += `<div onclick="${!booked && !past ? `pickDate('${dateStr}')` : ''}"
             title="${booked ? 'Already booked' : ''}"
@@ -353,7 +392,7 @@ function pickDate(dateStr) {
             d.setDate(d.getDate() + 1);
         }
         if (blocked) { alert('Range includes booked dates.'); ciInput.value = ''; coInput.value = ''; }
-        else { coInput.value = dateStr; calcPrice(); }
+        else { coInput.value = dateStr; calcTotal(); }
     } else { ciInput.value = dateStr; coInput.value = ''; }
     document.getElementById('ci-display').textContent = formatDate(ciInput.value);
     document.getElementById('co-display').textContent = formatDate(coInput.value);
@@ -369,18 +408,46 @@ function changeGuests(dir) {
     guestCount = Math.min(maxGuests, Math.max(1, guestCount + dir));
     document.getElementById('guest-count').textContent = guestCount;
     document.getElementById('guests-input').value = guestCount;
+    calcTotal();
 }
 
-function calcPrice() {
+function calcPrice() { calcTotal(); }
+
+function calcTotal() {
     const ci = new Date(document.querySelector('[name=check_in]').value);
     const co = new Date(document.querySelector('[name=check_out]').value);
     const nights = (co - ci) / (1000 * 60 * 60 * 24);
     const preview = document.getElementById('price-preview');
     if (nights > 0) {
+        const baseTotal = nights * pricePerNight;
+
+        // Add-ons multiplied by guest count where per-person
+        let addonsTotal = 0;
+        let addonsBreakdown = [];
+        document.querySelectorAll('input[name^="addon_"]:checked').forEach(cb => {
+            const price = parseFloat(cb.value);
+            const label = cb.closest('label').querySelector('.addon-name').textContent.trim();
+            const isPerPerson = cb.dataset.perperson === 'true';
+            if (isPerPerson) {
+                const subtotal = price * guestCount;
+                addonsTotal += subtotal;
+                addonsBreakdown.push(`${label} ×${guestCount} = €${subtotal.toFixed(2)}`);
+            } else {
+                addonsTotal += price;
+                addonsBreakdown.push(`${label} = €${price.toFixed(2)}`);
+            }
+        });
+
+        const grandTotal = baseTotal + addonsTotal;
         preview.style.display = 'block';
-        document.getElementById('nights-label').textContent = `${nights} night${nights!==1?'s':''} × €${pricePerNight}`;
-        document.getElementById('total-price').textContent = `€${(nights * pricePerNight).toFixed(2)}`;
-    } else { preview.style.display = 'none'; }
+
+        let breakdown = `${nights} night${nights!==1?'s':''} × €${pricePerNight} = €${baseTotal.toFixed(2)}`;
+        if (addonsBreakdown.length > 0) breakdown += ` + ${addonsBreakdown.join(', ')}`;
+        document.getElementById('nights-label').textContent = breakdown;
+        document.getElementById('total-price').textContent = `€${grandTotal.toFixed(2)}`;
+    } else {
+        preview.style.display = 'none';
+    }
 }
 
 renderCalendar();
