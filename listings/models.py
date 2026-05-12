@@ -89,3 +89,17 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review for booking {self.booking.id} — {self.rating}/5"
+    
+class AddOnService(models.Model):
+    SERVICE_CHOICES = [
+        ('breakfast', 'Breakfast'),
+        ('airport_transfer', 'Airport Transfer'),
+        ('dinner', 'Dinner'),
+    ]
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='addons')
+    service = models.CharField(max_length=50, choices=SERVICE_CHOICES)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    description = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.get_service_display()} for {self.listing.title} — €{self.price}"
