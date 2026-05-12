@@ -1,0 +1,82 @@
+{% extends "listings/base.html" %}
+
+{% block title %}Leave a Review{% endblock %}
+
+{% block content %}
+<div style="max-width: 580px; margin: 60px auto;">
+    <div style="background: white; border-radius: 18px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+
+        <h1 style="margin: 0 0 6px; font-size: 24px; font-weight: 700;">Leave a Review</h1>
+        <p style="color: #888; margin: 0 0 28px; font-size: 14px;">Share your experience at <strong>{{ booking.listing.title }}</strong></p>
+
+        <!-- Booking summary -->
+        <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; margin-bottom: 28px; font-size: 14px; color: #666;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span>Check-in</span><strong style="color: #222;">{{ booking.check_in }}</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>Check-out</span><strong style="color: #222;">{{ booking.check_out }}</strong>
+            </div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Star rating -->
+            <div style="margin-bottom: 24px;">
+                <label style="display:block; font-weight: 600; margin-bottom: 12px;">Your rating</label>
+                <div style="display: flex; gap: 8px;" id="star-container">
+                    {% for i in "12345" %}
+                    <span class="star" data-value="{{ forloop.counter }}"
+                          style="font-size: 36px; cursor: pointer; color: #ddd; transition: color 0.1s;">★</span>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="rating" id="rating-input" value="0">
+                <div id="rating-label" style="margin-top: 8px; font-size: 13px; color: #aaa;">Click to rate</div>
+            </div>
+
+            <!-- Comment -->
+            <div style="margin-bottom: 24px;">
+                <label style="display:block; font-weight: 600; margin-bottom: 8px;">Your comment</label>
+                <textarea name="comment" rows="5" placeholder="What did you love about this place? Any tips for future guests?"
+                          style="width: 100%; padding: 12px 14px; border: 1.5px solid #e8e8e8; border-radius: 12px; font-size: 15px; resize: vertical; box-sizing: border-box; font-family: inherit; line-height: 1.6;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button type="submit"
+                        style="background: #ff7a00; color: white; border: none; padding: 13px 28px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer;">
+                    Submit Review
+                </button>
+                <a href="{% url 'profile' user_id=booking.guest.id %}"
+                   style="display: inline-block; padding: 13px 20px; border-radius: 12px; text-decoration: none; background: #f3f4f6; color: #222; font-weight: 600;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const labels = ['', 'Poor', 'Fair', 'Good', 'Very good', 'Excellent'];
+    const stars = document.querySelectorAll('.star');
+    let selected = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function() {
+            const val = parseInt(this.dataset.value);
+            stars.forEach((s, i) => s.style.color = i < val ? '#ff7a00' : '#ddd');
+            document.getElementById('rating-label').textContent = labels[val];
+        });
+        star.addEventListener('mouseout', function() {
+            stars.forEach((s, i) => s.style.color = i < selected ? '#ff7a00' : '#ddd');
+            document.getElementById('rating-label').textContent = selected ? labels[selected] : 'Click to rate';
+        });
+        star.addEventListener('click', function() {
+            selected = parseInt(this.dataset.value);
+            document.getElementById('rating-input').value = selected;
+            stars.forEach((s, i) => s.style.color = i < selected ? '#ff7a00' : '#ddd');
+            document.getElementById('rating-label').textContent = labels[selected];
+        });
+    });
+</script>
+{% endblock %}

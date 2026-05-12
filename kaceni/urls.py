@@ -19,10 +19,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from listings import views
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("listings.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("bookings/<int:booking_id>/confirmation/", views.booking_confirmation, name="booking_confirmation"),
+    path("bookings/<int:booking_id>/review/", views.review_create, name="review_create"),
+
+
 ]
 
 if settings.DEBUG:

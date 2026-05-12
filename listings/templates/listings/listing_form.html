@@ -45,4 +45,19 @@
         });
     }
 </script>
+
+<div style="margin-top: 20px;">
+    <label style="display:block; font-weight:600; margin-bottom:8px;">
+        Number of guests
+        {% if listing %}<span style="color:#888; font-weight:400;">(max {{ listing.max_guests }})</span>{% endif %}
+    </label>
+    <input 
+        type="number" 
+        name="guests" 
+        min="1" 
+        max="{{ listing.max_guests }}" 
+        value="1"
+        required
+    >
+</div>
 {% endblock %}

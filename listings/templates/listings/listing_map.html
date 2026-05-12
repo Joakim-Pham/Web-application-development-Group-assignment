@@ -5,26 +5,20 @@
 {% block content %}
 <h1>Listing Map</h1>
 
-<div id="map" style="height: 600px;"></div>
+<div id="map" style="height: 600px; border-radius: 16px; overflow: hidden;"></div>
 
-<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-    // Create map
     var map = L.map('map').setView([20, 0], 2);
 
-    // Add tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     var bounds = [];
 
-    // Add markers from Django
     {% for listing in listings %}
         var lat = {{ listing.latitude }};
         var lng = {{ listing.longitude }};
@@ -33,13 +27,17 @@
 
         marker.bindPopup(
             "<strong>{{ listing.title|escapejs }}</strong><br>" +
-            "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}"
+            "{{ listing.city|escapejs }}, {{ listing.country|escapejs }}<br><br>" +
+            "€{{ listing.price_per_night }} / night<br><br>" +
+            "<a href='/listings/{{ listing.id }}/' " +
+            "style='display:inline-block; background:#ff7a00; color:white; padding:6px 14px; " +
+            "border-radius:8px; text-decoration:none; font-weight:600; font-size:13px;'>" +
+            "View &amp; Book →</a>"
         );
 
         bounds.push([lat, lng]);
     {% endfor %}
 
-    // Auto zoom to markers
     if (bounds.length > 0) {
         map.fitBounds(bounds);
     }
