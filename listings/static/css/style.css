@@ -720,13 +720,51 @@ tr:hover td {
 .add-listing-btn { background: var(--accent); color: white; padding: 8px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 13px; }
 .add-listing-btn:hover { color: white; }
 
-/* ── Booking confirmation: step indicator ── */
+/* ── Booking confirmation ── */
+.confirm-wrapper { max-width: 680px; margin: 60px auto; }
+.confirm-card { background: white; border-radius: 18px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.confirm-header { text-align: center; margin-bottom: 32px; }
+.confirm-emoji { font-size: 48px; }
+.confirm-summary-box { background: #f9f9f9; border-radius: 12px; padding: 24px; margin-bottom: 28px; }
+.confirm-table { width: 100%; border-collapse: collapse; }
+.confirm-table td { padding: 8px 0; border-bottom: none; }
+.td-label { color: #666; }
+.td-value { font-weight: 600; text-align: right; }
+.confirm-total-row { border-top: 2px solid #e5e5e5; }
+.confirm-total-row td { padding: 12px 0; font-weight: 700; font-size: 18px; }
+.td-total-amount { text-align: right; color: var(--accent); }
+.step-label-active { font-size: 13px; font-weight: 600; color: var(--accent); }
+.step-label-inactive { font-size: 13px; color: #999; }
+.hidden { display: none; }
+.transfer-table { width: 100%; border-collapse: collapse; }
+.transfer-table td { padding: 8px 0; border-bottom: none; }
+.transfer-td-label { color: #666; width: 140px; }
+.transfer-td-value { font-weight: 600; }
+.td-iban { font-family: monospace; letter-spacing: 1px; }
+.td-ref { color: var(--accent); }
+.transfer-total-row { border-top: 2px solid #f0d5c0; }
+.transfer-total-row td { padding: 10px 0; font-weight: 700; }
+.td-amount { font-size: 20px; color: var(--accent); }
+.transfer-note { margin-top: 12px; font-size: 13px; color: #888; }
+.transfer-btn { margin-top: 16px; background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; }
 .step-indicator { display: flex; gap: 8px; margin-bottom: 28px; align-items: center; }
 .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
 .step-dot-active { background: var(--accent); color: white; }
 .step-dot-inactive { background: #e5e5e5; color: #999; }
 .step-line { flex: 1; height: 2px; background: #e5e5e5; }
 .transfer-box { background: #fff7f0; border-left: 4px solid var(--accent); border-radius: 10px; padding: 24px; margin-bottom: 28px; }
+.confirm-form-grid { display: grid; gap: 16px; }
+.confirm-form-label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+.input-readonly { background: #f0f0f0; }
+.confirm-error { display: none; margin-top: 14px; padding: 12px; background: #fff1f1; border-radius: 8px; color: #b00020; font-size: 14px; }
+.confirm-actions { display: flex; gap: 12px; margin-top: 20px; }
+.btn-back { padding: 12px 20px; border-radius: 10px; border: 1px solid #d9d9d9; background: white; font-weight: 600; cursor: pointer; }
+.btn-confirm-pay { flex: 1; background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; }
+.success-step { text-align: center; padding: 32px 0; }
+.success-emoji { font-size: 56px; margin-bottom: 16px; }
+.success-summary-box { background: #f0faf4; border-radius: 10px; padding: 16px; margin-bottom: 24px; text-align: left; }
+.success-summary-box p { margin: 0; font-size: 14px; color: #444; }
+.success-actions { display: flex; gap: 12px; justify-content: center; }
 
 /* ── Review form: star rating ── */
 .star-container { display: flex; gap: 8px; }
@@ -737,17 +775,8 @@ tr:hover td {
 /* ── Responsive ── */
 @media (max-width: 768px) {
 
-    .steps,
-    .reasons {
-        grid-template-columns: 1fr;
-    }
-
     .hero {
         padding: 50px 24px 40px;
-    }
-
-    .map-section {
-        grid-template-columns: 1fr;
     }
 
     .form-wrapper {

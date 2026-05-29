@@ -3,47 +3,47 @@
 {% block title %}Booking Confirmed{% endblock %}
 
 {% block content %}
-<div style="max-width:680px; margin:60px auto;">
-    <div style="background:white; border-radius:18px; padding:36px; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+<div class="confirm-wrapper">
+    <div class="confirm-card">
 
         <!-- Header -->
-        <div style="text-align:center; margin-bottom:32px;">
-            <div style="font-size:48px;">🎉</div>
+        <div class="confirm-header">
+            <div class="confirm-emoji">🎉</div>
             <h1 style="margin:12px 0 6px;">Booking Confirmed!</h1>
             <p style="color:#666;">Your stay has been successfully booked. Complete your payment below.</p>
         </div>
 
         <!-- Booking Summary -->
-        <div style="background:#f9f9f9; border-radius:12px; padding:24px; margin-bottom:28px;">
+        <div class="confirm-summary-box">
             <h2 style="margin-top:0; font-size:18px;">Booking Summary</h2>
-            <table style="width:100%; border-collapse:collapse;">
+            <table class="confirm-table">
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Property</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">{{ booking.listing.title }}</td>
+                    <td class="td-label">Property</td>
+                    <td class="td-value">{{ booking.listing.title }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Location</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">{{ booking.listing.city }}, {{ booking.listing.country }}</td>
+                    <td class="td-label">Location</td>
+                    <td class="td-value">{{ booking.listing.city }}, {{ booking.listing.country }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Check-in</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">{{ booking.check_in }}</td>
+                    <td class="td-label">Check-in</td>
+                    <td class="td-value">{{ booking.check_in }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Check-out</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">{{ booking.check_out }}</td>
+                    <td class="td-label">Check-out</td>
+                    <td class="td-value">{{ booking.check_out }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Guests</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">{{ booking.guests }}</td>
+                    <td class="td-label">Guests</td>
+                    <td class="td-value">{{ booking.guests }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Price per night</td>
-                    <td style="padding:8px 0; font-weight:600; text-align:right;">€{{ booking.listing.price_per_night }}</td>
+                    <td class="td-label">Price per night</td>
+                    <td class="td-value">€{{ booking.listing.price_per_night }}</td>
                 </tr>
-                <tr style="border-top:2px solid #e5e5e5;">
-                    <td style="padding:12px 0; font-weight:700; font-size:18px;">Total</td>
-                    <td style="padding:12px 0; font-weight:700; font-size:18px; text-align:right; color:#ff7a00;">€{{ booking.total_price }}</td>
+                <tr class="confirm-total-row">
+                    <td>Total</td>
+                    <td class="td-total-amount">€{{ booking.total_price }}</td>
                 </tr>
             </table>
         </div>
@@ -51,110 +51,96 @@
         <!-- Step indicator -->
         <div id="step-indicator" class="step-indicator">
             <div id="step1-dot" class="step-dot step-dot-active">1</div>
-            <span id="step1-label" style="font-size:13px; font-weight:600; color:#ff7a00;">Transfer details</span>
+            <span id="step1-label" class="step-label-active">Transfer details</span>
             <div class="step-line"></div>
             <div id="step2-dot" class="step-dot step-dot-inactive">2</div>
-            <span id="step2-label" style="font-size:13px; color:#999;">Confirm payment</span>
+            <span id="step2-label" class="step-label-inactive">Confirm payment</span>
             <div class="step-line"></div>
             <div id="step3-dot" class="step-dot step-dot-inactive">3</div>
-            <span id="step3-label" style="font-size:13px; color:#999;">Done</span>
+            <span id="step3-label" class="step-label-inactive">Done</span>
         </div>
 
         <!-- Step 1: Bank Transfer Details -->
         <div id="step1" class="transfer-box">
             <h2 style="margin-top:0; font-size:16px;">💳 Payment by Bank Transfer</h2>
             <p style="color:#444; margin-bottom:16px;">Transfer the total amount to the details below within <strong>48 hours</strong>.</p>
-            <table style="width:100%; border-collapse:collapse;">
+            <table class="transfer-table">
                 <tr>
-                    <td style="padding:8px 0; color:#666; width:140px;">Bank</td>
-                    <td style="padding:8px 0; font-weight:600;">Example Bank Ltd.</td>
+                    <td class="transfer-td-label">Bank</td>
+                    <td class="transfer-td-value">Example Bank Ltd.</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Account name</td>
-                    <td style="padding:8px 0; font-weight:600;">{{ booking.listing.host.get_full_name|default:booking.listing.host.username }}</td>
+                    <td class="transfer-td-label">Account name</td>
+                    <td class="transfer-td-value">{{ booking.listing.host.get_full_name|default:booking.listing.host.username }}</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">IBAN</td>
-                    <td style="padding:8px 0; font-weight:600; font-family:monospace; letter-spacing:1px;">LT00 0000 0000 0000 0000</td>
+                    <td class="transfer-td-label">IBAN</td>
+                    <td class="transfer-td-value td-iban">LT00 0000 0000 0000 0000</td>
                 </tr>
                 <tr>
-                    <td style="padding:8px 0; color:#666;">Reference</td>
-                    <td style="padding:8px 0; font-weight:600; color:#ff7a00;">BOOKING-{{ booking.id }}</td>
+                    <td class="transfer-td-label">Reference</td>
+                    <td class="transfer-td-value td-ref">BOOKING-{{ booking.id }}</td>
                 </tr>
-                <tr style="border-top:2px solid #f0d5c0;">
-                    <td style="padding:10px 0; font-weight:700;">Amount</td>
-                    <td style="padding:10px 0; font-weight:700; font-size:20px; color:#ff7a00;">€{{ booking.total_price }}</td>
+                <tr class="transfer-total-row">
+                    <td>Amount</td>
+                    <td class="td-amount">€{{ booking.total_price }}</td>
                 </tr>
             </table>
-            <p style="margin-top:12px; font-size:13px; color:#888;">
-                ⚠️ Always use <strong>BOOKING-{{ booking.id }}</strong> as your payment reference.
-            </p>
-            <button onclick="goToStep2()" style="margin-top:16px; background:#ff7a00; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer; width:100%;">
-                I've made the transfer →
-            </button>
+            <p class="transfer-note">⚠️ Always use <strong>BOOKING-{{ booking.id }}</strong> as your payment reference.</p>
+            <button onclick="goToStep2()" class="transfer-btn">I've made the transfer →</button>
         </div>
 
-        <!-- Step 2: Confirm Payment (hidden initially) -->
-        <div id="step2" style="display:none; background:#f9f9f9; border-radius:12px; padding:24px; margin-bottom:28px;">
+        <!-- Step 2: Confirm Payment -->
+        <div id="step2" class="confirm-summary-box hidden">
             <h2 style="margin-top:0; font-size:18px;">Confirm your payment</h2>
             <p style="color:#666; margin-bottom:20px;">Please confirm the details of your transfer:</p>
 
-            <div style="display:grid; gap:16px;">
+            <div class="confirm-form-grid">
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:6px; font-size:14px;">Amount sent (€)</label>
-                    <input type="number" id="amount-sent" value="{{ booking.total_price }}" readonly
-                           style="width:100%; padding:10px 14px; border:1px solid #d9d9d9; border-radius:10px; font-size:16px; background:#f0f0f0; box-sizing:border-box;">
+                    <label class="confirm-form-label">Amount sent (€)</label>
+                    <input type="number" id="amount-sent" value="{{ booking.total_price }}" readonly class="input-readonly">
                 </div>
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:6px; font-size:14px;">Reference used</label>
-                    <input type="text" id="ref-used" value="BOOKING-{{ booking.id }}" readonly
-                           style="width:100%; padding:10px 14px; border:1px solid #d9d9d9; border-radius:10px; font-size:16px; background:#f0f0f0; box-sizing:border-box; font-family:monospace;">
+                    <label class="confirm-form-label">Reference used</label>
+                    <input type="text" id="ref-used" value="BOOKING-{{ booking.id }}" readonly class="input-readonly td-iban">
                 </div>
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:6px; font-size:14px;">Date of transfer</label>
-                    <input type="date" id="transfer-date"
-                           style="width:100%; padding:10px 14px; border:1px solid #d9d9d9; border-radius:10px; font-size:16px; box-sizing:border-box;">
+                    <label class="confirm-form-label">Date of transfer</label>
+                    <input type="date" id="transfer-date">
                 </div>
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:6px; font-size:14px;">Your bank name</label>
-                    <input type="text" id="sender-bank" placeholder="e.g. Revolut, SEB, Swedbank..."
-                           style="width:100%; padding:10px 14px; border:1px solid #d9d9d9; border-radius:10px; font-size:16px; box-sizing:border-box;">
+                    <label class="confirm-form-label">Your bank name</label>
+                    <input type="text" id="sender-bank" placeholder="e.g. Revolut, SEB, Swedbank...">
                 </div>
             </div>
 
-            <div id="confirm-error" style="display:none; margin-top:14px; padding:12px; background:#fff1f1; border-radius:8px; color:#b00020; font-size:14px;"></div>
+            <div id="confirm-error" class="confirm-error"></div>
 
-            <div style="display:flex; gap:12px; margin-top:20px;">
-                <button onclick="goToStep1()" style="padding:12px 20px; border-radius:10px; border:1px solid #d9d9d9; background:white; font-weight:600; cursor:pointer;">← Back</button>
-                <button onclick="confirmPayment()" style="flex:1; background:#ff7a00; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer;">Confirm payment</button>
+            <div class="confirm-actions">
+                <button onclick="goToStep1()" class="btn-back">← Back</button>
+                <button onclick="confirmPayment()" class="btn-confirm-pay">Confirm payment</button>
             </div>
         </div>
 
-        <!-- Step 3: Payment confirmed (hidden initially) -->
-        <div id="step3" style="display:none; text-align:center; padding:32px 0;">
-            <div style="font-size:56px; margin-bottom:16px;">✅</div>
+        <!-- Step 3: Payment confirmed -->
+        <div id="step3" class="success-step hidden">
+            <div class="success-emoji">✅</div>
             <h2 style="margin:0 0 8px;">Payment submitted!</h2>
             <p style="color:#666; margin-bottom:24px;">
                 Thank you! Your transfer has been recorded. The host will confirm once the payment is received.
                 A summary has been saved to your booking.
             </p>
-            <div style="background:#f0faf4; border-radius:10px; padding:16px; margin-bottom:24px; text-align:left;">
-                <p style="margin:0; font-size:14px; color:#444;">
+            <div class="success-summary-box">
+                <p>
                     <strong>Booking reference:</strong> BOOKING-{{ booking.id }}<br>
                     <strong>Amount:</strong> €{{ booking.total_price }}<br>
                     <strong>Property:</strong> {{ booking.listing.title }}<br>
                     <strong>Check-in:</strong> {{ booking.check_in }} &nbsp; <strong>Check-out:</strong> {{ booking.check_out }}
                 </p>
             </div>
-            <div style="display:flex; gap:12px; justify-content:center;">
-                <a href="{% url 'profile' user_id=booking.guest.id %}"
-                   style="display:inline-block; padding:12px 22px; border-radius:10px; text-decoration:none; background:#ff7a00; color:white; font-weight:600;">
-                    View my bookings
-                </a>
-                <a href="{% url 'listing_list' %}"
-                   style="display:inline-block; padding:12px 22px; border-radius:10px; text-decoration:none; background:#f3f4f6; color:#222; font-weight:600;">
-                    Browse more listings
-                </a>
+            <div class="success-actions">
+                <a href="{% url 'profile' user_id=booking.guest.id %}" class="btn btn-orange">View my bookings</a>
+                <a href="{% url 'listing_list' %}" class="btn-gray">Browse more listings</a>
             </div>
         </div>
 
