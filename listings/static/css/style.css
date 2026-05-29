@@ -818,7 +818,7 @@ tr:hover td {
     border-radius: var(--radius);
 }
 
-/* ── Responsive ── */
+/*── Responsive ── */
 @media (max-width: 768px) {
 
     .steps,

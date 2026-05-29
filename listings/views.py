@@ -247,12 +247,12 @@ def booking_confirmation(request, booking_id):
 def review_create(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, guest=request.user)
 
-    # Check booking has already happened (check_out in the past)
+    # this is checking if already booked
     from datetime import date
     if booking.check_out > date.today():
         return redirect('profile', user_id=request.user.id)
 
-    # Check no review exists yet
+    # this check if it already reviewed yet
     if hasattr(booking, 'review'):
         return redirect('profile', user_id=request.user.id)
 
