@@ -955,6 +955,20 @@ tr:hover td {
 .add-listing-btn { background:#ff7a00; color:white; padding:8px 16px; border-radius:10px; text-decoration:none; font-weight:600; font-size:13px; }
 .add-listing-btn:hover { color:white; }
 
+/* ══ booking_confirmation.html ══ */
+.step-indicator { display:flex; gap:8px; margin-bottom:28px; align-items:center; }
+.step-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; }
+.step-dot-active { background:#ff7a00; color:white; }
+.step-dot-inactive { background:#e5e5e5; color:#999; }
+.step-line { flex:1; height:2px; background:#e5e5e5; }
+.transfer-box { background:#fff7f0; border-left:4px solid #ff7a00; border-radius:10px; padding:24px; margin-bottom:28px; }
+
+/* ══ review_form.html ══ */
+.star-container { display:flex; gap:8px; }
+.star { font-size:36px; cursor:pointer; color:#ddd; transition:color 0.1s; }
+.rating-label { margin-top:8px; font-size:13px; color:#aaa; }
+.review-textarea { width:100%; padding:12px 14px; border:1.5px solid #e8e8e8; border-radius:12px; font-size:15px; resize:vertical; box-sizing:border-box; font-family:inherit; line-height:1.6; }
+
 /*── Responsive ── */
 @media (max-width: 768px) {
 

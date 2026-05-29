@@ -3,13 +3,13 @@
 {% block title %}Booking Confirmed{% endblock %}
 
 {% block content %}
-<div style="max-width: 680px; margin: 60px auto;">
-    <div style="background: white; border-radius: 18px; padding: 36px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+<div style="max-width:680px; margin:60px auto;">
+    <div style="background:white; border-radius:18px; padding:36px; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
 
         <!-- Header -->
-        <div style="text-align:center; margin-bottom: 32px;">
-            <div style="font-size: 48px;">🎉</div>
-            <h1 style="margin: 12px 0 6px;">Booking Confirmed!</h1>
+        <div style="text-align:center; margin-bottom:32px;">
+            <div style="font-size:48px;">🎉</div>
+            <h1 style="margin:12px 0 6px;">Booking Confirmed!</h1>
             <p style="color:#666;">Your stay has been successfully booked. Complete your payment below.</p>
         </div>
 
@@ -41,7 +41,7 @@
                     <td style="padding:8px 0; color:#666;">Price per night</td>
                     <td style="padding:8px 0; font-weight:600; text-align:right;">€{{ booking.listing.price_per_night }}</td>
                 </tr>
-                <tr style="border-top: 2px solid #e5e5e5;">
+                <tr style="border-top:2px solid #e5e5e5;">
                     <td style="padding:12px 0; font-weight:700; font-size:18px;">Total</td>
                     <td style="padding:12px 0; font-weight:700; font-size:18px; text-align:right; color:#ff7a00;">€{{ booking.total_price }}</td>
                 </tr>
@@ -49,19 +49,19 @@
         </div>
 
         <!-- Step indicator -->
-        <div id="step-indicator" style="display:flex; gap:8px; margin-bottom:28px; align-items:center;">
-            <div id="step1-dot" style="width:28px; height:28px; border-radius:50%; background:#ff7a00; color:white; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px;">1</div>
+        <div id="step-indicator" class="step-indicator">
+            <div id="step1-dot" class="step-dot step-dot-active">1</div>
             <span id="step1-label" style="font-size:13px; font-weight:600; color:#ff7a00;">Transfer details</span>
-            <div style="flex:1; height:2px; background:#e5e5e5;"></div>
-            <div id="step2-dot" style="width:28px; height:28px; border-radius:50%; background:#e5e5e5; color:#999; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px;">2</div>
+            <div class="step-line"></div>
+            <div id="step2-dot" class="step-dot step-dot-inactive">2</div>
             <span id="step2-label" style="font-size:13px; color:#999;">Confirm payment</span>
-            <div style="flex:1; height:2px; background:#e5e5e5;"></div>
-            <div id="step3-dot" style="width:28px; height:28px; border-radius:50%; background:#e5e5e5; color:#999; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px;">3</div>
+            <div class="step-line"></div>
+            <div id="step3-dot" class="step-dot step-dot-inactive">3</div>
             <span id="step3-label" style="font-size:13px; color:#999;">Done</span>
         </div>
 
         <!-- Step 1: Bank Transfer Details -->
-        <div id="step1" style="background:#fff7f0; border-left: 4px solid #ff7a00; border-radius:10px; padding:24px; margin-bottom:28px;">
+        <div id="step1" class="transfer-box">
             <h2 style="margin-top:0; font-size:16px;">💳 Payment by Bank Transfer</h2>
             <p style="color:#444; margin-bottom:16px;">Transfer the total amount to the details below within <strong>48 hours</strong>.</p>
             <table style="width:100%; border-collapse:collapse;">
@@ -81,7 +81,7 @@
                     <td style="padding:8px 0; color:#666;">Reference</td>
                     <td style="padding:8px 0; font-weight:600; color:#ff7a00;">BOOKING-{{ booking.id }}</td>
                 </tr>
-                <tr style="border-top: 2px solid #f0d5c0;">
+                <tr style="border-top:2px solid #f0d5c0;">
                     <td style="padding:10px 0; font-weight:700;">Amount</td>
                     <td style="padding:10px 0; font-weight:700; font-size:20px; color:#ff7a00;">€{{ booking.total_price }}</td>
                 </tr>
@@ -125,12 +125,8 @@
             <div id="confirm-error" style="display:none; margin-top:14px; padding:12px; background:#fff1f1; border-radius:8px; color:#b00020; font-size:14px;"></div>
 
             <div style="display:flex; gap:12px; margin-top:20px;">
-                <button onclick="goToStep1()" style="padding:12px 20px; border-radius:10px; border:1px solid #d9d9d9; background:white; font-weight:600; cursor:pointer;">
-                    ← Back
-                </button>
-                <button onclick="confirmPayment()" style="flex:1; background:#ff7a00; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer;">
-                    Confirm payment
-                </button>
+                <button onclick="goToStep1()" style="padding:12px 20px; border-radius:10px; border:1px solid #d9d9d9; background:white; font-weight:600; cursor:pointer;">← Back</button>
+                <button onclick="confirmPayment()" style="flex:1; background:#ff7a00; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer;">Confirm payment</button>
             </div>
         </div>
 
