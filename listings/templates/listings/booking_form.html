@@ -3,19 +3,17 @@
 {% block title %}Booking Form{% endblock %}
 
 {% block content %}
-<div style="max-width: 720px; margin: 40px auto;">
-    <div style="background: white; border-radius: 18px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
-        <h1 style="margin-top: 0; margin-bottom: 10px;">Book your stay</h1>
-        <p style="color: #666; margin-bottom: 28px;">
-            Choose your dates and confirm your booking.
-        </p>
+<div style="max-width:720px; margin:40px auto;">
+    <div style="background:white; border-radius:18px; padding:32px; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+        <h1 style="margin-top:0; margin-bottom:10px;">Book your stay</h1>
+        <p style="color:#666; margin-bottom:28px;">Choose your dates and confirm your booking.</p>
 
         <form method="post">
             {% csrf_token %}
 
             {% if listing %}
                 <input type="hidden" name="listing" value="{{ listing.id }}">
-                <div style="margin-bottom: 20px; padding: 14px; background: #f9f9f9; border-radius: 10px;">
+                <div style="margin-bottom:20px; padding:14px; background:#f9f9f9; border-radius:10px;">
                     <strong>{{ listing.title }}</strong>
                     <span style="color:#666; margin-left:10px;">€{{ listing.price_per_night }} / night</span>
                 </div>
@@ -23,27 +21,21 @@
 
             <div class="date-grid">
                 <div>
-                    <label for="{{ form.check_in.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
-                        Check in
-                    </label>
+                    <label for="{{ form.check_in.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">Check in</label>
                     {{ form.check_in }}
                 </div>
-
                 <div>
-                    <label for="{{ form.check_out.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">
-                        Check out
-                    </label>
+                    <label for="{{ form.check_out.id_for_label }}" style="display:block; font-weight:600; margin-bottom:8px;">Check out</label>
                     {{ form.check_out }}
                 </div>
             </div>
 
-            <!-- Price preview (inside the card, inside the form) -->
-            <div id="price-preview" style="display:none; padding:14px; background:#fff7f0; border-radius:10px; margin-top:16px;">
+            <div id="price-preview" class="booking-price-preview">
                 <strong>Estimated total:</strong> <span id="total-price"></span>
             </div>
 
             {% if form.errors %}
-                <div style="margin-top: 20px; padding: 14px 16px; border-radius: 10px; background:#fff1f1; color:#b00020;">
+                <div class="booking-errors">
                     {% for error in form.non_field_errors %}
                         <p style="margin:0 0 6px;">{{ error }}</p>
                     {% endfor %}
@@ -55,13 +47,9 @@
                 </div>
             {% endif %}
 
-            <div style="display:flex; gap:12px; margin-top: 28px;">
-                <button type="submit" style="background:#ff7a00; color:white; border:none; padding:12px 22px; border-radius:10px; font-weight:600; cursor:pointer;">
-                    Confirm booking
-                </button>
-                <a href="{% url 'booking_list' %}" style="display:inline-block; padding:12px 22px; border-radius:10px; text-decoration:none; background:#f3f4f6; color:#222; font-weight:600;">
-                    Back
-                </a>
+            <div class="booking-actions">
+                <button type="submit" class="btn btn-orange">Confirm booking</button>
+                <a href="{% url 'booking_list' %}" class="btn-gray">Back</a>
             </div>
         </form>
     </div>
@@ -87,41 +75,6 @@ function calcPrice() {
     }
 }
 </script>
-
-<style>
-    .date-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-top: 20px;
-    }
-
-    select,
-    input[type="date"],
-    input[type="text"],
-    input[type="number"] {
-        width: 100%;
-        padding: 12px 14px;
-        border: 1px solid #d9d9d9;
-        border-radius: 10px;
-        font-size: 16px;
-        background: #fff;
-        box-sizing: border-box;
-    }
-
-    select:focus,
-    input:focus {
-        outline: none;
-        border-color: #ff7a00;
-        box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15);
-    }
-
-    @media (max-width: 640px) {
-        .date-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
 <input type="hidden" name="listing_id" value="{{ listing.id }}">
 
 {% endblock %}

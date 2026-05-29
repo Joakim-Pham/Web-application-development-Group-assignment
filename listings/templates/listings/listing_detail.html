@@ -5,37 +5,33 @@
 {% block content %}
 
 <!-- Hero: Title + location -->
-<div style="margin-bottom: 24px;">
-    <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 8px;">{{ listing.title }}</h1>
-    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-        <span style="color: #666; font-size: 15px;">📍 {{ listing.city }}, {{ listing.country }}</span>
-        <span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">{{ listing.get_property_type_display }}</span>
-        <span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">👥 Max {{ listing.max_guests }} guests</span>
-        {% if listing.bedrooms %}<span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">🛏 {{ listing.bedrooms }} bed{{ listing.bedrooms|pluralize }}</span>{% endif %}
-        {% if listing.bathrooms %}<span style="background: #f3f4f6; border-radius: 20px; padding: 3px 12px; font-size: 13px; color: #444;">🚿 {{ listing.bathrooms }} bath{{ listing.bathrooms|pluralize }}</span>{% endif %}
+<div style="margin-bottom:24px;">
+    <h1 style="font-size:28px; font-weight:700; margin:0 0 8px;">{{ listing.title }}</h1>
+    <div class="detail-meta">
+        <span style="color:#666; font-size:15px;">📍 {{ listing.city }}, {{ listing.country }}</span>
+        <span class="detail-meta-badge">{{ listing.get_property_type_display }}</span>
+        <span class="detail-meta-badge">👥 Max {{ listing.max_guests }} guests</span>
+        {% if listing.bedrooms %}<span class="detail-meta-badge">🛏 {{ listing.bedrooms }} bed{{ listing.bedrooms|pluralize }}</span>{% endif %}
+        {% if listing.bathrooms %}<span class="detail-meta-badge">🚿 {{ listing.bathrooms }} bath{{ listing.bathrooms|pluralize }}</span>{% endif %}
     </div>
 </div>
 
 <!-- Photos -->
 {% with images=listing.images.all %}
 {% if images %}
-<div style="margin-bottom: 28px;">
+<div class="photo-gallery">
     {% with first=images.0 %}
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px; border-radius: 16px; overflow: hidden; max-height: 420px;">
-        <div style="overflow: hidden;">
+    <div class="photo-grid">
+        <div class="photo-grid-main">
             {% if first.image %}
-            <img src="{{ first.image.url }}" alt="{{ listing.title }}"
-                 style="width: 100%; height: 420px; object-fit: cover; display: block;">
+            <img src="{{ first.image.url }}" alt="{{ listing.title }}">
             {% endif %}
         </div>
-        <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 8px;">
+        <div class="photo-grid-side">
             {% for image in images %}
                 {% if forloop.counter > 1 and forloop.counter <= 3 %}
                     {% if image.image %}
-                    <div style="overflow: hidden;">
-                        <img src="{{ image.image.url }}" alt="{{ listing.title }}"
-                             style="width: 100%; height: 206px; object-fit: cover; display: block;">
-                    </div>
+                    <div><img src="{{ image.image.url }}" alt="{{ listing.title }}"></div>
                     {% endif %}
                 {% endif %}
             {% endfor %}
@@ -47,108 +43,108 @@
 {% endwith %}
 
 <!-- Main content: info left, price card right -->
-<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start;">
+<div class="detail-layout">
 
     <!-- LEFT: Details -->
     <div>
 
         <!-- Key stats -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px;">
-            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 4px;">💰</div>
-                <div style="font-weight: 700; font-size: 18px;">€{{ listing.price_per_night }}</div>
-                <div style="font-size: 12px; color: #888;">per night</div>
+        <div class="detail-stats">
+            <div class="detail-stat-card">
+                <div style="font-size:22px; margin-bottom:4px;">💰</div>
+                <div style="font-weight:700; font-size:18px;">€{{ listing.price_per_night }}</div>
+                <div style="font-size:12px; color:#888;">per night</div>
             </div>
             {% if listing.square_meters %}
-            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 4px;">📐</div>
-                <div style="font-weight: 700; font-size: 18px;">{{ listing.square_meters }}</div>
-                <div style="font-size: 12px; color: #888;">m²</div>
+            <div class="detail-stat-card">
+                <div style="font-size:22px; margin-bottom:4px;">📐</div>
+                <div style="font-weight:700; font-size:18px;">{{ listing.square_meters }}</div>
+                <div style="font-size:12px; color:#888;">m²</div>
             </div>
             {% endif %}
             {% if listing.number_of_beds %}
-            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 4px;">🛏</div>
-                <div style="font-weight: 700; font-size: 18px;">{{ listing.number_of_beds }}</div>
-                <div style="font-size: 12px; color: #888;">beds</div>
+            <div class="detail-stat-card">
+                <div style="font-size:22px; margin-bottom:4px;">🛏</div>
+                <div style="font-weight:700; font-size:18px;">{{ listing.number_of_beds }}</div>
+                <div style="font-size:12px; color:#888;">beds</div>
             </div>
             {% endif %}
         </div>
 
-        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+        <hr class="detail-divider">
 
         <!-- Description -->
-        <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 12px;">About this place</h2>
-            <p style="color: #444; line-height: 1.7; margin: 0;">{{ listing.description }}</p>
+        <div class="detail-section">
+            <h2 class="detail-section-title">About this place</h2>
+            <p style="color:#444; line-height:1.7; margin:0;">{{ listing.description }}</p>
         </div>
 
-        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+        <hr class="detail-divider">
 
         <!-- Address -->
-        <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 10px;">Location</h2>
-            <p style="color: #666; margin: 0;">📍 {{ listing.address }}, {{ listing.city }}, {{ listing.country }}</p>
+        <div class="detail-section">
+            <h2 class="detail-section-title">Location</h2>
+            <p style="color:#666; margin:0;">📍 {{ listing.address }}, {{ listing.city }}, {{ listing.country }}</p>
         </div>
 
-        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+        <hr class="detail-divider">
 
         <!-- Availability -->
-        <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 12px;">Availability</h2>
+        <div class="detail-section">
+            <h2 class="detail-section-title">Availability</h2>
             {% if listing.available_from or listing.available_to %}
-            <div style="display: flex; gap: 16px;">
+            <div class="availability-row">
                 {% if listing.available_from %}
-                <div style="background: #f9f9f9; border-radius: 10px; padding: 12px 16px;">
-                    <div style="font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">From</div>
-                    <div style="font-weight: 700;">{{ listing.available_from }}</div>
+                <div class="availability-item">
+                    <div style="font-size:11px; color:#aaa; font-weight:600; text-transform:uppercase; margin-bottom:4px;">From</div>
+                    <div style="font-weight:700;">{{ listing.available_from }}</div>
                 </div>
                 {% endif %}
                 {% if listing.available_to %}
-                <div style="background: #f9f9f9; border-radius: 10px; padding: 12px 16px;">
-                    <div style="font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">Until</div>
-                    <div style="font-weight: 700;">{{ listing.available_to }}</div>
+                <div class="availability-item">
+                    <div style="font-size:11px; color:#aaa; font-weight:600; text-transform:uppercase; margin-bottom:4px;">Until</div>
+                    <div style="font-weight:700;">{{ listing.available_to }}</div>
                 </div>
                 {% endif %}
             </div>
             {% else %}
-            <p style="color: #444; margin: 0;">✅ Available anytime</p>
+            <p style="color:#444; margin:0;">✅ Available anytime</p>
             {% endif %}
         </div>
 
-        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+        <hr class="detail-divider">
 
         <!-- Amenities -->
-        <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 14px;">Amenities</h2>
+        <div class="detail-section">
+            <h2 class="detail-section-title">Amenities</h2>
             {% if amenities %}
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="amenities-grid">
                 {% for amenity in amenities %}
-                <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #444;">
-                    <span style="color: #ff7a00;">✓</span> {{ amenity.name }}
+                <div class="amenity-item">
+                    <span class="amenity-check">✓</span> {{ amenity.name }}
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p style="color: #888; margin: 0;">No amenities listed.</p>
+            <p style="color:#888; margin:0;">No amenities listed.</p>
             {% endif %}
         </div>
 
-        <hr style="border: none; border-top: 1px solid #f0f0f0; margin-bottom: 24px;">
+        <hr class="detail-divider">
 
         <!-- Reviews -->
         {% if reviews %}
-        <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 18px; font-weight: 700; margin: 0 0 16px;">Reviews</h2>
+        <div class="detail-section">
+            <h2 class="detail-section-title">Reviews</h2>
             {% for review in reviews %}
-            <div style="background: #f9f9f9; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                    <span style="color: #ff7a00; font-size: 14px;">
+            <div class="review-card">
+                <div class="review-header">
+                    <span style="color:#ff7a00; font-size:14px;">
                         {% for i in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}
                     </span>
-                    <span style="font-size: 13px; color: #888;">by {{ review.booking.guest.username }}</span>
+                    <span style="font-size:13px; color:#888;">by {{ review.booking.guest.username }}</span>
                 </div>
-                <p style="margin: 0; color: #444; font-size: 14px; line-height: 1.6;">{{ review.comment }}</p>
+                <p style="margin:0; color:#444; font-size:14px; line-height:1.6;">{{ review.comment }}</p>
             </div>
             {% endfor %}
         </div>
@@ -157,39 +153,39 @@
     </div>
 
     <!-- RIGHT: Sticky booking card -->
-    <div style="position: sticky; top: 24px;">
-        <div style="background: white; border: 1px solid #e8e8e8; border-radius: 20px; padding: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+    <div class="booking-sidebar">
+        <div class="booking-sidebar-card">
 
-            <div style="margin-bottom: 20px;">
-                <span style="font-size: 24px; font-weight: 700;">€{{ listing.price_per_night }}</span>
-                <span style="color: #888; font-size: 15px;"> / night</span>
+            <div style="margin-bottom:20px;">
+                <span style="font-size:24px; font-weight:700;">€{{ listing.price_per_night }}</span>
+                <span style="color:#888; font-size:15px;"> / night</span>
             </div>
 
             {% if user.is_authenticated %}
 
             <!-- Calendar -->
-            <div style="margin-bottom: 16px;">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-                    <button onclick="changeMonth(-1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:14px;">‹</button>
+            <div style="margin-bottom:16px;">
+                <div class="cal-header">
+                    <button onclick="changeMonth(-1)" class="cal-nav-btn">‹</button>
                     <span id="cal-title" style="font-weight:700; font-size:13px;"></span>
-                    <button onclick="changeMonth(1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:14px;">›</button>
+                    <button onclick="changeMonth(1)" class="cal-nav-btn">›</button>
                 </div>
-                <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:4px;">
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Mo</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Tu</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">We</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Th</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Fr</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Sa</div>
-                    <div style="text-align:center; font-size:10px; font-weight:600; color:#aaa;">Su</div>
+                <div class="cal-weekdays">
+                    <div class="cal-weekday">Mo</div>
+                    <div class="cal-weekday">Tu</div>
+                    <div class="cal-weekday">We</div>
+                    <div class="cal-weekday">Th</div>
+                    <div class="cal-weekday">Fr</div>
+                    <div class="cal-weekday">Sa</div>
+                    <div class="cal-weekday">Su</div>
                 </div>
                 <div id="cal-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:2px;"></div>
-                <div style="display:flex; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid #f0f0f0;">
-                    <div style="display:flex; align-items:center; gap:4px; font-size:11px; color:#666;">
-                        <div style="width:10px; height:10px; border-radius:2px; background:#ffe4e4;"></div> Booked
+                <div class="cal-legend">
+                    <div class="cal-legend-item">
+                        <div class="cal-legend-dot" style="background:#ffe4e4;"></div> Booked
                     </div>
-                    <div style="display:flex; align-items:center; gap:4px; font-size:11px; color:#666;">
-                        <div style="width:10px; height:10px; border-radius:2px; background:#ff7a00;"></div> Selected
+                    <div class="cal-legend-item">
+                        <div class="cal-legend-dot" style="background:#ff7a00;"></div> Selected
                     </div>
                 </div>
             </div>
@@ -198,14 +194,14 @@
                 {% csrf_token %}
 
                 <!-- Date display -->
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; border:1.5px solid #e8e8e8; border-radius:12px; overflow:hidden;">
-                    <div style="padding:10px 12px; border-right:1px solid #e8e8e8;">
-                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:3px;">Check-in</div>
-                        <div id="ci-display" style="font-size:13px; font-weight:600; color:#222;">Select</div>
+                <div class="date-display">
+                    <div class="date-display-ci">
+                        <div class="date-display-label">Check-in</div>
+                        <div id="ci-display" class="date-display-value">Select</div>
                     </div>
-                    <div style="padding:10px 12px;">
-                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:3px;">Check-out</div>
-                        <div id="co-display" style="font-size:13px; font-weight:600; color:#222;">Select</div>
+                    <div class="date-display-co">
+                        <div class="date-display-label">Check-out</div>
+                        <div id="co-display" class="date-display-value">Select</div>
                     </div>
                 </div>
 
@@ -215,37 +211,37 @@
                 </div>
 
                 <!-- Guests stepper -->
-                <div style="border:1.5px solid #e8e8e8; border-radius:12px; padding:10px 14px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between;">
+                <div class="guests-stepper">
                     <div>
-                        <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:2px;">Guests</div>
-                        <div style="font-size:12px; color:#666;">max {{ listing.max_guests }}</div>
+                        <div class="guests-label">Guests</div>
+                        <div class="guests-max">max {{ listing.max_guests }}</div>
                     </div>
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <button type="button" onclick="changeGuests(-1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:16px;">−</button>
+                    <div class="guests-controls">
+                        <button type="button" onclick="changeGuests(-1)" class="stepper-btn">−</button>
                         <span id="guest-count" style="font-weight:700; min-width:16px; text-align:center;">1</span>
                         <input type="hidden" name="guests" id="guests-input" value="1">
-                        <button type="button" onclick="changeGuests(1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #e8e8e8; background:white; cursor:pointer; font-size:16px;">+</button>
+                        <button type="button" onclick="changeGuests(1)" class="stepper-btn">+</button>
                     </div>
                 </div>
 
                 <!-- Add-on services -->
                 {% with addons=listing.addons.all %}
                 {% if addons %}
-                <div style="border:1.5px solid #e8e8e8; border-radius:12px; padding:14px; margin-bottom:12px;">
-                    <div style="font-size:10px; font-weight:600; color:#aaa; text-transform:uppercase; margin-bottom:10px;">Optional add-ons</div>
+                <div class="addons-box">
+                    <div class="addons-title">Optional add-ons</div>
                     {% for addon in addons %}
-                    <label style="display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f5f5f5; cursor:pointer;">
-                        <div style="display:flex; align-items:center; gap:8px;">
+                    <label class="addon-row">
+                        <div class="addon-left">
                             <input type="checkbox" name="addon_{{ addon.id }}" value="{{ addon.price }}"
                                    data-perperson="{% if addon.service == 'breakfast' or addon.service == 'dinner' %}true{% else %}false{% endif %}"
                                    onchange="calcTotal()"
-                                   style="width:16px; height:16px; accent-color:#ff7a00;">
+                                   class="addon-check">
                             <div>
-                                <div style="font-size:13px; font-weight:600;" class="addon-name">
+                                <div class="addon-name">
                                     {% if addon.service == 'breakfast' %}🍳{% elif addon.service == 'airport_transfer' %}🚗{% elif addon.service == 'dinner' %}🍽{% endif %}
                                     {{ addon.get_service_display }}
                                 </div>
-                                <div style="font-size:11px; color:#aaa;">
+                                <div class="addon-description">
                                     {{ addon.description }}
                                     {% if addon.service == 'breakfast' or addon.service == 'dinner' %}
                                     <span style="color:#ff7a00; font-weight:600;">· per person</span>
@@ -255,10 +251,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="font-size:13px; font-weight:700; color:#ff7a00; white-space:nowrap; margin-left:8px;">
+                        <div class="addon-price">
                             +€{{ addon.price }}
                             {% if addon.service == 'breakfast' or addon.service == 'dinner' %}
-                            <span style="font-size:10px; color:#aaa; font-weight:400;">/person</span>
+                            <span class="addon-price-unit">/person</span>
                             {% endif %}
                         </div>
                     </label>
@@ -268,8 +264,8 @@
                 {% endwith %}
 
                 <!-- Price preview -->
-                <div id="price-preview" style="display:none; background:#fff7f0; border-radius:10px; padding:12px 14px; margin-bottom:12px;">
-                    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
+                <div id="price-preview" class="detail-price-preview">
+                    <div class="detail-price-row">
                         <span id="nights-label" style="color:#666;"></span>
                         <span id="total-price" style="font-weight:700; color:#ff7a00;"></span>
                     </div>
@@ -282,27 +278,21 @@
                 </div>
                 {% endif %}
 
-                <button type="submit" style="width:100%; background:#ff7a00; color:white; border:none; padding:13px; border-radius:12px; font-weight:700; font-size:15px; cursor:pointer;">
-                    Reserve
-                </button>
-                <p style="text-align:center; font-size:11px; color:#aaa; margin: 8px 0 0;">You won't be charged yet</p>
+                <button type="submit" class="reserve-btn">Reserve</button>
+                <p style="text-align:center; font-size:11px; color:#aaa; margin:8px 0 0;">You won't be charged yet</p>
             </form>
 
             {% else %}
-            <a href="{% url 'login' %}" style="display:block; width:100%; background:#ff7a00; color:white; border:none; padding:13px; border-radius:12px; font-weight:700; font-size:15px; text-align:center; text-decoration:none; box-sizing:border-box;">
-                Log in to book
-            </a>
+            <a href="{% url 'login' %}" class="login-to-book">Log in to book</a>
             {% endif %}
 
             <!-- Unavailable dates -->
             {% if booked_dates %}
-            <div style="margin-top:14px; padding:10px 12px; background:#fff8f8; border-radius:8px;">
+            <div class="booked-dates-box">
                 <div style="font-size:11px; font-weight:600; color:#c00; margin-bottom:6px;">Unavailable dates</div>
-                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                <div class="booked-dates-list">
                     {% for check_in, check_out in booked_dates %}
-                    <span style="font-size:11px; background:white; border:1px solid #ffd0d0; border-radius:20px; padding:2px 8px; color:#c00;">
-                        {{ check_in }} – {{ check_out }}
-                    </span>
+                    <span class="booked-date-badge">{{ check_in }} – {{ check_out }}</span>
                     {% endfor %}
                 </div>
             </div>
@@ -314,7 +304,7 @@
 </div>
 
 <br>
-<a href="{% url 'listing_list' %}" style="color:#ff7a00; font-weight:600; text-decoration:none;">← Back to listings</a>
+<a href="{% url 'listing_list' %}" class="back-link">← Back to listings</a>
 
 <script>
 const bookedRanges = [
